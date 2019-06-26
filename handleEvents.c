@@ -1,11 +1,4 @@
-#include <stdio.h>
-#include "SDL2/SDL.h"
-#include <stdbool.h>
-#include "SDL2/SDL_mixer.h"
-#include "SDL2/SDL_image.h"
 #include "handleEvents.h"
-
-// #define FPS 60
 
 int processEvents(PC *player) {
     SDL_Event event;
@@ -33,7 +26,7 @@ int processEvents(PC *player) {
         player->walking = 0;
     }
 
-    if(keystate[SDL_SCANCODE_W] && player->dy==0 && player->y==350) {
+    if(keystate[SDL_SCANCODE_W] && player->dy==0 && player->y==200-eachFramey) {
         player->dy = -8;
     }
     

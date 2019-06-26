@@ -9,11 +9,15 @@
 
 #define FPS 60
 
+int eachFramex;
+int eachFramey;
+
 typedef struct {
     float x, y, dy;
     short life;
     char *name;
     int currentSprite, walking, facingLeft, shooting, visible;
+    int sprite_w, sprite_h;
     int alive;
     SDL_Texture *sheetTexture;
 } PC;

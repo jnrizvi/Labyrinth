@@ -1,16 +1,7 @@
-#include <stdio.h>
-#include "SDL2/SDL.h"
-#include <stdbool.h>
-#include "SDL2/SDL_mixer.h"
-#include "SDL2/SDL_image.h"
 #include "handleEvents.h"
 #include "physics2d.h"
 
-#define FPS 60
-int eachFramex;
-int eachFramey;
-int sheetx;
-int sheety;
+
 
 SDL_Rect createRect(int x_pos, int y_pos, int width, int height) {
     SDL_Rect rect;
@@ -22,12 +13,7 @@ SDL_Rect createRect(int x_pos, int y_pos, int width, int height) {
     return rect;
 }
 
-SDL_Texture *createTexture(char *img_name, SDL_Renderer *renderer) {
-    SDL_Surface *image = IMG_Load(img_name);
-    SDL_Texture *image_texture = SDL_CreateTextureFromSurface(renderer, image);
-    SDL_FreeSurface(image);
-    return image_texture;
-}
+
 
 void loopFrames(PC *player) {
     const Uint8* keystate = SDL_GetKeyboardState(NULL);
@@ -44,28 +30,6 @@ void loopFrames(PC *player) {
     else {
         player->currentSprite = 0;
     }
-}
-
-void handleMovement(SDL_Rect *texture_destination, SDL_Event event) {
-    
-    const Uint8* keystate = SDL_GetKeyboardState(NULL);
-    
-    //continuous-response keys
-    // maybe only push to the stack if the previously pushed key (using peak) was not the current one?
-    if (keystate[SDL_SCANCODE_A]) {
-        texture_destination->x -= 3;    
-    }
-    if (keystate[SDL_SCANCODE_D]) {
-        texture_destination->x += 3;
-    }
-    if (keystate[SDL_SCANCODE_W]) {
-        texture_destination->y -= 3;
-    }
-    if (keystate[SDL_SCANCODE_S]) {
-        texture_destination->y += 3;
-                
-    }
-    
 }
 
 bool keyCool(bool isCool, int timer) {
@@ -110,19 +74,20 @@ int main(int argc, char** argv) {
     player.facingLeft = 0;
 
      // load image files
-    Platform blocks;
-    blocks.pTexture = createTexture("imageFiles/brick.png", renderer);
     player.sheetTexture = createTexture("imageFiles/mario.png", renderer);  
 
+    player.sprite_w = 32;
+    player.sprite_h = 64;
     eachFramex = 32;
     eachFramey = 64;
-    sheetx = 336;
     
     // define where on the screen we want to draw the texture
-    SDL_Rect player_dest = createRect(150, 150, eachFramex, eachFramey);
+    SDL_Rect player_dest = createRect(150, 75, eachFramex, eachFramey);
     SDL_Rect player_cur_sprite = createRect(eachFramex*player.currentSprite, 0, eachFramex, eachFramey);
     
-    SDL_Rect block_dest = createRect(168, 350+eachFramey, 32, 32);
+
+    SDL_Rect block_dest = createRect(128, 200, 32, 32);
+    Platform blocks = initPlatform("imageFiles/brick.png", block_dest, 8, renderer);
 
     int done = 0;
     
@@ -158,20 +123,12 @@ int main(int argc, char** argv) {
         // draw an image
         SDL_RenderCopyEx(renderer, player.sheetTexture, &player_cur_sprite, &player_dest, 0, NULL, player.facingLeft);
         
-        block_dest.x = 128;
-        SDL_RenderCopy(renderer, blocks.pTexture, NULL, &block_dest);
-        block_dest.x += 32;
-        SDL_RenderCopy(renderer, blocks.pTexture, NULL, &block_dest);
-        block_dest.x += 32;
-        SDL_RenderCopy(renderer, blocks.pTexture, NULL, &block_dest);
-        block_dest.x += 32;
-        SDL_RenderCopy(renderer, blocks.pTexture, NULL, &block_dest);
-        block_dest.x += 32;
-        SDL_RenderCopy(renderer, blocks.pTexture, NULL, &block_dest);
-        block_dest.x += 32;
-        SDL_RenderCopy(renderer, blocks.pTexture, NULL, &block_dest);
-        block_dest.x += 32;
-        SDL_RenderCopy(renderer, blocks.pTexture, NULL, &block_dest);
+        block_dest.x = blocks.block_dest.x;
+        
+        for (int i = 0; i < blocks.numBlocks; i++) {
+            SDL_RenderCopy(renderer, blocks.pTexture, NULL, &block_dest);
+            block_dest.x += blocks.block_dest.w;
+        }
 
         SDL_RenderPresent(renderer);
 
