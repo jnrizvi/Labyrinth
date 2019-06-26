@@ -67,7 +67,7 @@ int main(int argc, char** argv) {
 
 
     PC player;
-    player.x = 150;
+    player.x = 300;
     player.y = 150;
     player.dy = 0;
     player.currentSprite = 0;
@@ -82,24 +82,21 @@ int main(int argc, char** argv) {
     eachFramey = 64;
     
     // define where on the screen we want to draw the texture
-    SDL_Rect player_dest = createRect(150, 75, eachFramex, eachFramey);
+    SDL_Rect player_dest = createRect(player.x, player.y, eachFramex, eachFramey);
     SDL_Rect player_cur_sprite = createRect(eachFramex*player.currentSprite, 0, eachFramex, eachFramey);
     
 
-    SDL_Rect block_dest = createRect(128, 200, 32, 32);
-    Platform blocks = initPlatform("imageFiles/brick.png", block_dest, 8, renderer);
+    SDL_Rect block_dest = createRect(256, 200, 32, 32);
+    Platform blocks = initPlatform("imageFiles/brick.png", block_dest, 7, renderer);
 
     int done = 0;
-    
-    SDL_Event event;
     
     bool cool = false;
     int coolTime;
 
     int frameTime = 0;
-    char dir;
 
-    while(!done) {
+    while(done == 0) {
         
         done = processEvents(&player);
         frameTime += 1;
