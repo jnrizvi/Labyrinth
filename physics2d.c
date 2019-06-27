@@ -1,4 +1,4 @@
-#include "handleEvents.h"
+
 #include "physics2d.h"
 
 void gravity(Agent *agent, Platform *nextPlatform) {

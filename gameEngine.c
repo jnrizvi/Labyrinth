@@ -1,4 +1,3 @@
-#include "handleEvents.h"
 #include "physics2d.h"
 
 
@@ -46,20 +45,17 @@ int main(int argc, char** argv) {
     // initialize SDL video and audio systems
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 
-    // create an SDL window
+    // initialize SDL mixer
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+
+    IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
+
     SDL_Window *window = SDL_CreateWindow("Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_OPENGL);
 
     // create a renderer (accelerated and in-sync with the display referesh rate)
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
     
-    // turn sprite around
-    SDL_RendererFlip flip = SDL_FLIP_NONE;
-
-    // initialize SDL mixer
-    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
-
-    // initialize support for loading png and jpg images
-    IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
 
     // load audio files
     Mix_Chunk *jumpEffect = Mix_LoadWAV("audioFiles/Jump6.wav");

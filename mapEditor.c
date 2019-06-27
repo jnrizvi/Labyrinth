@@ -23,10 +23,6 @@ Agent initAgent(char* textureName, SDL_Rect agent_dest, int facingLeft, int curr
     agent.currentFramey = currentFramey;
     SDL_Rect currentSprite;
     agent.currentSprite = currentSprite;
-    // currentSprite.x = agent.sprite_w * agent.currentFramex;
-    // currentSprite.y = agent.sprite_h * agent.currentFramey;
-    // currentSprite.w = agent.sprite_w;
-    // currentSprite.h = agent.sprite_h;
     setCurrentSprite(&agent, &agent.currentSprite);
     
 
