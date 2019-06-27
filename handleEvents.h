@@ -14,14 +14,15 @@ int eachFramey;
 
 typedef struct {
     float x, y, dy;
-    short life;
-    char *name;
-    int currentSprite, walking, facingLeft, shooting, visible;
+    int currentFramex;
+    int currentFramey;
+    int walking;
+    int facingLeft;
     int sprite_w, sprite_h;
-    int alive;
     SDL_Texture *sheetTexture;
-} PC;
+    SDL_Rect currentSprite;
+} Agent;
 
-int processEvents(PC *player);
+int processEvents(Agent *agent);
 
 #endif /* HANDLE_EVENTS */

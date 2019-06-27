@@ -1,6 +1,6 @@
 #include "handleEvents.h"
 
-int processEvents(PC *player) {
+int processEvents(Agent *agent) {
     SDL_Event event;
     int done = 0;
 
@@ -13,27 +13,27 @@ int processEvents(PC *player) {
     const Uint8 *keystate = SDL_GetKeyboardState(NULL);
     
     if (keystate[SDL_SCANCODE_A]) {
-        player->x -= 3;
-        player->walking = 1;
-        player->facingLeft = 1;
+        agent->x -= 3;
+        agent->walking = 1;
+        agent->facingLeft = 1;
     }
     else if(keystate[SDL_SCANCODE_D]) {
-        player->x += 3;
-        player->walking = 1;
-        player->facingLeft = 0;
+        agent->x += 3;
+        agent->walking = 1;
+        agent->facingLeft = 0;
     }
     else {
-        player->walking = 0;
+        agent->walking = 0;
     }
 
-    if(keystate[SDL_SCANCODE_W] && player->dy==0 && player->y==200-eachFramey) {
-        player->dy = -8;
+    if(keystate[SDL_SCANCODE_W] && agent->dy==0 && agent->y==200-agent->sprite_h) {
+        agent->dy = -8;
     }
     
     
     // if(keystate[SDL_SCANCODE_DOWN])
     // {
-    //     //player->y += 10;  change to mario's crouch animation
+    //     //agent->y += 10;  change to mario's crouch animation
     // }
 
     return done;

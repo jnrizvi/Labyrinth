@@ -15,20 +15,20 @@ SDL_Rect createRect(int x_pos, int y_pos, int width, int height) {
 
 
 
-void loopFrames(PC *player) {
+void updateSpriteFrame(Agent *agent) {
     const Uint8* keystate = SDL_GetKeyboardState(NULL);
     
     // continuous-response keys
     if (keystate[SDL_SCANCODE_A]) {
-        player->currentSprite++;
-        player->currentSprite %= 3;
+        agent->currentFramex++;
+        agent->currentFramex %= 3;
     }
     else if (keystate[SDL_SCANCODE_D]) {
-        player->currentSprite++;
-        player->currentSprite %= 3;
+        agent->currentFramex++;
+        agent->currentFramex %= 3;
     }
     else {
-        player->currentSprite = 0;
+        agent->currentFramex = 0;
     }
 }
 
@@ -64,27 +64,13 @@ int main(int argc, char** argv) {
     // load audio files
     Mix_Chunk *jumpEffect = Mix_LoadWAV("audioFiles/Jump6.wav");
     Mix_Chunk *laserEffect = Mix_LoadWAV("audioFiles/Laser_Shoot7.wav");
-
-
-    PC player;
-    player.x = 300;
-    player.y = 150;
-    player.dy = 0;
-    player.currentSprite = 0;
-    player.facingLeft = 0;
-
-     // load image files
-    player.sheetTexture = createTexture("imageFiles/mario.png", renderer);  
-
-    player.sprite_w = 32;
-    player.sprite_h = 64;
-    eachFramex = 32;
-    eachFramey = 64;
+    
     
     // define where on the screen we want to draw the texture
-    SDL_Rect player_dest = createRect(player.x, player.y, eachFramex, eachFramey);
-    SDL_Rect player_cur_sprite = createRect(eachFramex*player.currentSprite, 0, eachFramex, eachFramey);
-    
+    SDL_Rect player_dest = createRect(300, 150, 32, 64);
+    Agent player = initAgent("imageFiles/mario.png", player_dest, 0, 0, 0, renderer);
+    eachFramex = 32;
+    eachFramey = 64;
 
     SDL_Rect block_dest = createRect(256, 200, 32, 32);
     Platform blocks = initPlatform("imageFiles/brick.png", block_dest, 7, renderer);
@@ -102,7 +88,7 @@ int main(int argc, char** argv) {
         frameTime += 1;
         if (FPS / frameTime == 10) {
             frameTime = 0;
-            loopFrames(&player);
+            updateSpriteFrame(&player);
         }
         gravity(&player, &blocks);
         
@@ -112,13 +98,12 @@ int main(int argc, char** argv) {
 
         
         
-        // printf("currentSprite: %d\n", player.currentSprite);
-        SDL_Rect player_dest = createRect(player.x, player.y, eachFramex, eachFramey);;
-        SDL_Rect player_cur_sprite = createRect(eachFramex*player.currentSprite, 0, eachFramex, eachFramey);
         
+        SDL_Rect player_dest = createRect(player.x, player.y, player.sprite_w, player.sprite_h);
+        setCurrentSprite(&player, &player.currentSprite);
 
         // draw an image
-        SDL_RenderCopyEx(renderer, player.sheetTexture, &player_cur_sprite, &player_dest, 0, NULL, player.facingLeft);
+        SDL_RenderCopyEx(renderer, player.sheetTexture, &player.currentSprite, &player_dest, 0, NULL, player.facingLeft);
         
         block_dest.x = blocks.block_dest.x;
         
