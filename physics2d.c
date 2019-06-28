@@ -1,21 +1,21 @@
 
 #include "physics2d.h"
 
-int onLedge(Agent *agent, Platform platform) {
+int onLedge(Agent *agent, Platform *platform) {
     
 
     
-    platform.top = platform.block_dest.y - agent->sprite_h;
-    platform.leftEdge = platform.block_dest.x - agent->sprite_w;
-    platform.rightEdge = (platform.block_dest.w * platform.numBlocks) + platform.block_dest.x;
+    platform->top = platform->block_dest.y - agent->sprite_h;
+    platform->leftEdge = platform->block_dest.x - agent->sprite_w;
+    platform->rightEdge = (platform->block_dest.w * platform->numBlocks) + platform->block_dest.x;
     
     
-    if ( agent->y >= platform.top && (agent->x >= platform.leftEdge && agent->x <= platform.rightEdge) ) {
-        agent->y = platform.top;                                                                                    
+    if ( agent->y >= platform->top && (agent->x >= platform->leftEdge && agent->x <= platform->rightEdge) ) {
+        agent->y = platform->top;                                                                                    
         agent->dy = 0;
         return 0;
     }
-    else if (agent->y >= platform.top && !(agent->x >= platform.leftEdge && agent->x <= platform.rightEdge) ) {
+    else if (agent->y >= platform->top && !(agent->x >= platform->leftEdge && agent->x <= platform->rightEdge) ) {
         // printf("Beep\n");
         return 1;
     }

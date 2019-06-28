@@ -85,7 +85,7 @@ int main(int argc, char** argv) {
 
     int frameTime = 0;
 
-    int start_index = 0;
+    int current_platform = 0;
     
     while(done == 0) {
         
@@ -98,16 +98,19 @@ int main(int argc, char** argv) {
 
         
         gravity(&player);
-        for (int i =0; i <= start_index; i++) {
-            // printf("i = %d\n", i);
-            if (onLedge(&player, platforms[start_index]) == 0) {
-                // printf("1\n");
+        for (int i =0; i <= current_platform; i++) {
+            if (onLedge(&player, &platforms[current_platform]) == 0) {
                 break;
             }
-            else if (onLedge(&player, platforms[start_index]) == 1) {  // leave out the previous index so it isn't looped through again (the platform is above player)
-                // printf("2\n");
-                if (start_index <= 1) {
-                    start_index++;
+            else if (onLedge(&player, &platforms[current_platform]) == 1) {  // leave out the previous index so it isn't looped through again (the platform is above player)
+                if (current_platform < 1) {
+                    current_platform++;
+                }
+            }
+            if (current_platform-1 >=0) {
+                if (player.y <= platforms[current_platform-1].top) {
+                    // printf("player.y: %f, current_platform: %d\n", player.y, current_platform);
+                    current_platform -= 1;
                 }
             }
         }

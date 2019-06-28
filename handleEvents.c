@@ -27,7 +27,7 @@ int processEvents(Agent *agent) {
     }
 
     if(keystate[SDL_SCANCODE_W] && agent->dy==0 && (agent->y==200-agent->sprite_h || agent->y==350-agent->sprite_h )) {
-        agent->dy = -8;
+        agent->dy = -14;
     }
     
     
