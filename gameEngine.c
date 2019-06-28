@@ -85,6 +85,8 @@ int main(int argc, char** argv) {
 
     int frameTime = 0;
 
+    int start_index = 0;
+    
     while(done == 0) {
         
         done = processEvents(&player);
@@ -93,9 +95,23 @@ int main(int argc, char** argv) {
             frameTime = 0;
             updateSpriteFrame(&player);
         }
-        gravity(&player, platforms);
-        // gravity(&player, &brick1);
 
+        
+        gravity(&player);
+        for (int i =0; i <= start_index; i++) {
+            // printf("i = %d\n", i);
+            if (onLedge(&player, platforms[start_index]) == 0) {
+                // printf("1\n");
+                break;
+            }
+            else if (onLedge(&player, platforms[start_index]) == 1) {  // leave out the previous index so it isn't looped through again (the platform is above player)
+                // printf("2\n");
+                if (start_index <= 1) {
+                    start_index++;
+                }
+            }
+        }
+        
         // clear screen by making it black
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
