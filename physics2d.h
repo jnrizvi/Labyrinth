@@ -3,6 +3,6 @@
 
 #include "mapEditor.h"
 
-void gravity(Agent *agent, Platform *nextPlatform);
+void gravity(Agent *agent, Platform platforms[2]);
 
 #endif /* PHYSICS_2D */

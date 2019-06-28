@@ -12,8 +12,6 @@ SDL_Rect createRect(int x_pos, int y_pos, int width, int height) {
     return rect;
 }
 
-
-
 void updateSpriteFrame(Agent *agent) {
     const Uint8* keystate = SDL_GetKeyboardState(NULL);
     
@@ -40,8 +38,7 @@ bool keyCool(bool isCool, int timer) {
     }
 }
 
-int main(int argc, char** argv) {
-    
+void initEnvironment() {
     // initialize SDL video and audio systems
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 
@@ -49,6 +46,15 @@ int main(int argc, char** argv) {
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 
     IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
+}
+void destroyEnvironment() {
+    Mix_CloseAudio();
+    IMG_Quit();
+    SDL_Quit();
+}
+int main(int argc, char** argv) {
+    
+    initEnvironment();
 
     SDL_Window *window = SDL_CreateWindow("Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_OPENGL);
 
@@ -63,18 +69,19 @@ int main(int argc, char** argv) {
     
     
     // define where on the screen we want to draw the texture
-    SDL_Rect player_dest = createRect(300, 150, 32, 64);
+    SDL_Rect player_dest = createRect(300, 50, 32, 64);
     Agent player = initAgent("imageFiles/mario.png", player_dest, 0, 0, 0, renderer);
     eachFramex = 32;
     eachFramey = 64;
 
-    SDL_Rect block_dest = createRect(256, 200, 32, 32);
-    Platform blocks = initPlatform("imageFiles/brick.png", block_dest, 7, renderer);
+    SDL_Rect brick_dest = createRect(256, 200, 32, 32);
+    Platform brick = initPlatform("imageFiles/brick.png", brick_dest, 7, renderer);
 
+    SDL_Rect brick1_dest = createRect(150, 350, 32, 32);
+    Platform brick1 = initPlatform("imageFiles/brick.png", brick1_dest, 7, renderer);
+
+    Platform platforms[2] = {brick, brick1};
     int done = 0;
-    
-    bool cool = false;
-    int coolTime;
 
     int frameTime = 0;
 
@@ -86,26 +93,26 @@ int main(int argc, char** argv) {
             frameTime = 0;
             updateSpriteFrame(&player);
         }
-        gravity(&player, &blocks);
-        
+        gravity(&player, platforms);
+        // gravity(&player, &brick1);
+
         // clear screen by making it black
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
-        
-        
-        
         SDL_Rect player_dest = createRect(player.x, player.y, player.sprite_w, player.sprite_h);
         setCurrentSprite(&player, &player.currentSprite);
 
         // draw an image
         SDL_RenderCopyEx(renderer, player.sheetTexture, &player.currentSprite, &player_dest, 0, NULL, player.facingLeft);
         
-        block_dest.x = blocks.block_dest.x;
-        
-        for (int i = 0; i < blocks.numBlocks; i++) {
-            SDL_RenderCopy(renderer, blocks.pTexture, NULL, &block_dest);
-            block_dest.x += blocks.block_dest.w;
+        brick_dest.x = brick.block_dest.x;
+        brick1_dest.x = brick1.block_dest.x;
+        for (int i = 0; i < brick.numBlocks; i++) {
+            SDL_RenderCopy(renderer, brick.pTexture, NULL, &brick_dest);
+            SDL_RenderCopy(renderer, brick1.pTexture, NULL, &brick1_dest);
+            brick_dest.x += brick.block_dest.w;
+            brick1_dest.x += brick1.block_dest.w;
         }
 
         SDL_RenderPresent(renderer);
@@ -118,10 +125,8 @@ int main(int argc, char** argv) {
     SDL_DestroyWindow(window);
     Mix_FreeChunk(jumpEffect);
     Mix_FreeChunk(laserEffect);
-    Mix_CloseAudio();
-    IMG_Quit();
     SDL_DestroyTexture(player.sheetTexture);
-    SDL_DestroyTexture(blocks.pTexture);
-    SDL_Quit();
+    SDL_DestroyTexture(brick.pTexture);
+    destroyEnvironment();
     return 0;
 }
