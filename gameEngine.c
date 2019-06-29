@@ -61,8 +61,6 @@ int main(int argc, char** argv) {
     // create a renderer (accelerated and in-sync with the display referesh rate)
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-    
-
     // load audio files
     Mix_Chunk *jumpEffect = Mix_LoadWAV("audioFiles/Jump6.wav");
     Mix_Chunk *laserEffect = Mix_LoadWAV("audioFiles/Laser_Shoot7.wav");
@@ -77,7 +75,7 @@ int main(int argc, char** argv) {
     SDL_Rect brick_dest = createRect(256, 200, 32, 32);
     Platform brick = initPlatform("imageFiles/brick.png", brick_dest, 7, renderer);
 
-    SDL_Rect brick1_dest = createRect(150, 350, 32, 32);
+    SDL_Rect brick1_dest = createRect(150, 300, 32, 32);
     Platform brick1 = initPlatform("imageFiles/brick.png", brick1_dest, 7, renderer);
 
     Platform platforms[2] = {brick, brick1};
@@ -98,23 +96,24 @@ int main(int argc, char** argv) {
 
         
         gravity(&player);
-        for (int i =0; i <= current_platform; i++) {
-            if (onLedge(&player, &platforms[current_platform]) == 0) {
-                break;
-            }
-            else if (onLedge(&player, &platforms[current_platform]) == 1) {  // leave out the previous index so it isn't looped through again (the platform is above player)
-                if (current_platform < 1) {
-                    current_platform++;
-                }
-            }
-            if (current_platform-1 >=0) {
-                if (player.y <= platforms[current_platform-1].top) {
-                    // printf("player.y: %f, current_platform: %d\n", player.y, current_platform);
-                    current_platform -= 1;
-                }
-            }
-        }
-        
+        // for (int i =0; i <= current_platform; i++) {
+        //     if (onLedge(&player, &platforms[current_platform]) == 0) {
+        //         break;
+        //     }
+        //     else if (onLedge(&player, &platforms[current_platform]) == 1) {
+        //         if (current_platform < 1) {
+        //             current_platform++;
+        //         }
+        //     }
+        //     if (current_platform-1 >=0) {
+        //         if (player.y <= platforms[current_platform-1].top) {
+        //             // printf("player.y: %f, current_platform: %d\n", player.y, current_platform);
+        //             current_platform -= 1;
+        //         }
+        //     }
+        // }
+        changePlatforms(&player, platforms, &current_platform);
+
         // clear screen by making it black
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);

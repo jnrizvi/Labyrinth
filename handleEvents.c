@@ -26,8 +26,8 @@ int processEvents(Agent *agent) {
         agent->walking = 0;
     }
 
-    if(keystate[SDL_SCANCODE_W] && agent->dy==0 && (agent->y==200-agent->sprite_h || agent->y==350-agent->sprite_h )) {
-        agent->dy = -14;
+    if(keystate[SDL_SCANCODE_W] && agent->dy==0 && (agent->y==200-agent->sprite_h || agent->y==300-agent->sprite_h )) {
+        agent->dy = -10;
     }
     
     
