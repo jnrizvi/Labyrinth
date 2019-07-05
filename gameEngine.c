@@ -84,6 +84,7 @@ int main(int argc, char** argv) {
     int frameTime = 0;
 
     int current_platform = 0;
+    bool noMorePlat =false;
     
     while(done == 0) {
         
@@ -96,7 +97,9 @@ int main(int argc, char** argv) {
 
         
         gravity(&player);
-        changePlatforms(&player, platforms, &current_platform);
+        if (noMorePlat == false){
+            changePlatforms(&player, platforms, &current_platform, &noMorePlat);
+        }
 
         // clear screen by making it black
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
