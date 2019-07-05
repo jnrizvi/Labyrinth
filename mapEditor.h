@@ -6,10 +6,10 @@ typedef struct {
     SDL_Texture *pTexture;
     SDL_Rect block_dest;
     int numBlocks;                        // how many blocks of platform you want to make (i.e. 1, 2, etc.)
-    int leftEdge;                        // leftEdge = block_dest.x - player.sprite_w
-    int rightEdge;                      // rightEdge = (block_dest.w * numBlocks) + block_dest.x
-    int top;                           // top = block_dest.y - player.sprite_h
-    int bottom;                       // bottom = block_dest.y + block_dest.h
+    float leftEdge;                        // leftEdge = block_dest.x - player.sprite_w
+    float rightEdge;                      // rightEdge = (block_dest.w * numBlocks) + block_dest.x
+    float top;                           // top = block_dest.y - player.sprite_h
+    float bottom;                       // bottom = block_dest.y + block_dest.h
 } Platform;
 
 void setCurrentSprite(Agent *agent, SDL_Rect *rect);
