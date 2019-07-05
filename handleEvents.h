@@ -14,6 +14,10 @@ int eachFramey;
 
 typedef struct {
     float x, y, dy;
+    float bottom;
+    float top;
+    float rightEdge;
+    float leftEdge;
     int currentFramex;
     int currentFramey;
     int walking;

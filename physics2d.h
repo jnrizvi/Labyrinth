@@ -3,7 +3,8 @@
 
 #include "mapEditor.h"
 
-int changePlatforms(Agent *agent, Platform platforms[2], int *current_platform);
+void collideRect(Agent *agent, Platform *platform);
+void changePlatforms(Agent *agent, Platform platforms[2], int *current_platform);
 int onLedge(Agent *agent, Platform *platform);
 void gravity(Agent *agent);
 

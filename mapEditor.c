@@ -25,6 +25,11 @@ Agent initAgent(char* textureName, SDL_Rect agent_dest, int facingLeft, int curr
     agent.currentSprite = currentSprite;
     setCurrentSprite(&agent, &agent.currentSprite);
     
+    agent.leftEdge = agent.x;
+    agent.rightEdge = agent.x + agent.sprite_w;
+    agent.bottom = agent.y + agent.sprite_h;
+    agent.top = agent.x;
+    
 
     return agent;
 }
@@ -34,7 +39,11 @@ Platform initPlatform(char* textureName, SDL_Rect block_dest, int numBlocks, SDL
     platform.pTexture = createTexture(textureName, renderer);
     platform.block_dest = block_dest;
     platform.numBlocks = numBlocks;
+
+    platform.leftEdge = platform.block_dest.x;
+    platform.rightEdge = (platform.block_dest.w * platform.numBlocks) + platform.block_dest.x;
     platform.bottom = platform.block_dest.y + platform.block_dest.h;
+    platform.top = platform.block_dest.y; 
 
     return platform;
 }
