@@ -1,4 +1,4 @@
-#include "handleEvents.h"
+#include "headers/handleEvents.h"
 
 int processEvents(Agent *agent) {
     SDL_Event event;

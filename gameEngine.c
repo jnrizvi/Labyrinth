@@ -1,6 +1,6 @@
-#include "handleEvents.h"
-#include "mapEditor.h"
-#include "physics2d.h"
+#include "headers/handleEvents.h"
+#include "headers/mapEditor.h"
+#include "headers/physics2d.h"
 #include "utils.c"
 
 void updateSpriteFrame(Agent *agent) {

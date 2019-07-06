@@ -1,4 +1,4 @@
-#include "mapEditor.h"
+#include "headers/mapEditor.h"
 
 void setCurrentSprite(Agent *agent, SDL_Rect *rect) {
     agent->currentSprite.x = agent->sprite_w * agent->currentFramex;
