@@ -35,6 +35,14 @@ typedef struct {
     float bottom;                       
 } Platform;
 
+typedef struct {
+    float x;
+    float y;
+    float w;
+    float h;
+} Float_Rect;
+
+
 
 int processEvents(Agent *agent);
 
