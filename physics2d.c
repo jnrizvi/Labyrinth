@@ -13,15 +13,12 @@ void changePlatforms(Agent *agent, Platform platforms[2], int *current_platform,
             *current_platform -= 1;
         }
         // printf("agent->y: %f, *current_platform: %d\n", agent->y, *current_platform);
-        // printf("*current_platform: %d\n", *current_platform);
         if (onLedge(agent, &platforms[*current_platform]) == 0) {
-            // remained on the current platform
             // printf("remained on platform %d\n", *current_platform);
             incremented = false;
             break;
         }
         else if (onLedge(agent, &platforms[*current_platform]) == 1) {
-            // fell off the current platform
             if (incremented == false && *current_platform <= 1) {
                 // printf("*current_platform: %d\n", *current_platform);
                 *current_platform += 1;
@@ -42,33 +39,28 @@ void changePlatforms(Agent *agent, Platform platforms[2], int *current_platform,
 
 int onLedge(Agent *agent, Platform *platform) {
     int result;
-    // printf("platform->top: %f\n", platform->top);
     if ( agent->bottom >= platform->top) {
+        // above/on the current platform
         if (agent->rightEdge >= platform->leftEdge && agent->leftEdge <= platform->rightEdge) {
+            // remained on the current platform
             agent->y = platform->top - agent->sprite_h;
-            
+            agent->jumpAgain = true;
             agent->bottom = platform->top; 
-            
-            agent->top = agent->y;
-            // printf("agent->top: %f\n", agent->top);                                                                                
+            agent->top = agent->y;                                                                            
             agent->dy = 0;
             result = 0; 
         }
         else {
+            // fell off the current platform
             result = 1;
         }    
     }
-    
     return result;
-    
-    
 }
 
 void gravity(Agent *agent) {
     agent->y += agent->dy;
-
     agent->bottom += agent->dy;
     agent->top += agent->dy;
-    
     agent->dy += 0.5;
 }

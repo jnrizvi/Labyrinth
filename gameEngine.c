@@ -85,8 +85,6 @@ int main(int argc, char** argv) {
     // define where on the screen we want to draw the texture
     SDL_Rect player_dest = createRect(300, 50, 32, 64);
     Agent player = initAgent("imageFiles/mario.png", player_dest, 0, 0, 0, renderer);
-    eachFramex = 32;
-    eachFramey = 64;
 
     SDL_Rect brick_dest = createRect(256, 200, 32, 32);
     Platform brick = initPlatform("imageFiles/brick.png", brick_dest, 7, renderer);
