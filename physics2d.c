@@ -1,4 +1,3 @@
-
 #include "physics2d.h"
 
 void collideRect(Agent *agent, Platform *platform) {

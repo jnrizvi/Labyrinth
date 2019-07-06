@@ -1,16 +1,16 @@
 gameEngine: gameEngine.o handleEvents.o physics2d.o mapEditor.o
-	gcc -lSDL2 -lSDL2_mixer -lSDL2_image gameEngine.o handleEvents.o physics2d.o mapEditor.o -o Game.app
+	gcc -Wall -lSDL2 -lSDL2_mixer -lSDL2_image gameEngine.o handleEvents.o physics2d.o mapEditor.o -o Game.app
 
-gameEngine.o : handleEvents.h physics2d.h
+gameEngine.o :
 	gcc -c gameEngine.c 
 
-handleEvents.o : handleEvents.h
+handleEvents.o :
 	gcc -c handleEvents.c
 
-physics2D.o : physics2d.h
+physics2D.o :
 	gcc -c physics2d.c
 
-mapEditor.o : mapEditor.h
+mapEditor.o :
 	gcc -c mapEditor.c
 
 clean:

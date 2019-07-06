@@ -1,7 +1,5 @@
 #include "mapEditor.h"
 
-// mapEditor.c should use gravity()
-
 void setCurrentSprite(Agent *agent, SDL_Rect *rect) {
     agent->currentSprite.x = agent->sprite_w * agent->currentFramex;
     agent->currentSprite.y = agent->sprite_h * agent->currentFramey;

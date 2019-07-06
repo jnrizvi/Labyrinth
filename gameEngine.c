@@ -1,3 +1,5 @@
+#include "handleEvents.h"
+#include "mapEditor.h"
 #include "physics2d.h"
 
 typedef struct {
@@ -6,7 +8,6 @@ typedef struct {
     float w;
     float h;
 } Float_Rect;
-
 
 SDL_Rect createRect(int x_pos, int y_pos, int width, int height) {
     SDL_Rect rect;
@@ -71,7 +72,6 @@ void destroyEnvironment() {
 int main(int argc, char** argv) {
     
     initEnvironment();
-
     SDL_Window *window = SDL_CreateWindow("Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_OPENGL);
 
     // create a renderer (accelerated and in-sync with the display referesh rate)

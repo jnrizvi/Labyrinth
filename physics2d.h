@@ -1,7 +1,7 @@
 #ifndef PHYSICS_2D
 #define PHYSICS_2D
 
-#include "mapEditor.h"
+#include "resources.h"
 
 void collideRect(Agent *agent, Platform *platform);
 void changePlatforms(Agent *agent, Platform platforms[2], int *current_platform, bool *noMorePlat);
