@@ -29,7 +29,7 @@ void changePlatforms(Agent *agent, Platform platforms[2], int *current_platform,
         // printf("agent->y: %f, *current_platform: %d\n", agent->y, *current_platform);
         if (*current_platform -1 >= 0) {
             // printf("agent->y: %f, *current_platform: %d\n", agent->y, *current_platform);
-            if (agent->bottom <= platforms[*current_platform-1].top) {
+            if (agent->coll.bottom <= platforms[*current_platform-1].coll.top) {
                 // jumped at the level of a platform above
                 *current_platform -= 1;
             }
@@ -39,14 +39,14 @@ void changePlatforms(Agent *agent, Platform platforms[2], int *current_platform,
 
 int onLedge(Agent *agent, Platform *platform) {
     int result;
-    if ( agent->bottom >= platform->top) {
+    if ( agent->coll.bottom >= platform->coll.top) {
         // above/on the current platform
-        if (agent->rightEdge >= platform->leftEdge && agent->leftEdge <= platform->rightEdge) {
+        if (agent->coll.rightEdge >= platform->coll.leftEdge && agent->coll.leftEdge <= platform->coll.rightEdge) {
             // remained on the current platform
-            agent->y = platform->top - agent->sprite_h;
+            agent->y = platform->coll.top - agent->sprite_h;
             agent->jumpAgain = true;
-            agent->bottom = platform->top; 
-            agent->top = agent->y;                                                                            
+            agent->coll.bottom = platform->coll.top; 
+            agent->coll.top = agent->y;                                                                            
             agent->dy = 0;
             result = 0; 
         }
@@ -60,7 +60,7 @@ int onLedge(Agent *agent, Platform *platform) {
 
 void gravity(Agent *agent) {
     agent->y += agent->dy;
-    agent->bottom += agent->dy;
-    agent->top += agent->dy;
+    agent->coll.bottom += agent->dy;
+    agent->coll.top += agent->dy;
     agent->dy += 0.5;
 }

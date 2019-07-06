@@ -10,11 +10,14 @@
 #define FPS 60
 
 typedef struct {
-    float x, y, dy;
-    float bottom;
-    float top;
-    float rightEdge;
     float leftEdge;
+    float rightEdge;
+    float top;
+    float bottom;
+} Coll;
+
+typedef struct {
+    float x, y, dy;
     int currentFramex;
     int currentFramey;
     int walking;
@@ -23,16 +26,14 @@ typedef struct {
     int sprite_w, sprite_h;
     SDL_Texture *sheetTexture;
     SDL_Rect currentSprite;
+    Coll coll;
 } Agent;
 
 typedef struct {
     SDL_Texture *pTexture;
     SDL_Rect block_dest;
     int numBlocks;                          // how many blocks of platform you want to make (i.e. 1, 2, etc.)
-    float leftEdge;                        
-    float rightEdge;                      
-    float top;                           
-    float bottom;                       
+    Coll coll;                     
 } Platform;
 
 typedef struct {

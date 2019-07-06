@@ -14,15 +14,15 @@ int processEvents(Agent *agent) {
     
     if (keystate[SDL_SCANCODE_A]) {
         agent->x -= 3;
-        agent->leftEdge -= 3;
-        agent->rightEdge -= 3;
+        agent->coll.leftEdge -= 3;
+        agent->coll.rightEdge -= 3;
         agent->walking = 1;
         agent->facingLeft = 1;
     }
     else if(keystate[SDL_SCANCODE_D]) {
         agent->x += 3;
-        agent->leftEdge += 3;
-        agent->rightEdge += 3;
+        agent->coll.leftEdge += 3;
+        agent->coll.rightEdge += 3;
         agent->walking = 1;
         agent->facingLeft = 0;
     }
