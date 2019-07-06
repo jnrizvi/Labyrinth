@@ -1,5 +1,11 @@
 #include "physics2d.h"
 
+typedef struct {
+    float x;
+    float y;
+    float w;
+    float h;
+} Float_Rect;
 
 
 SDL_Rect createRect(int x_pos, int y_pos, int width, int height) {
@@ -9,6 +15,16 @@ SDL_Rect createRect(int x_pos, int y_pos, int width, int height) {
     rect.w = width;
     rect.h = height;
     
+    return rect;
+}
+
+Float_Rect createFRect(float x_pos, float y_pos, float width, float height) {
+    Float_Rect rect;
+    rect.x = x_pos;
+    rect.y = y_pos;
+    rect.w = width;
+    rect.h = height;
+
     return rect;
 }
 
@@ -99,7 +115,10 @@ int main(int argc, char** argv) {
         gravity(&player);
         if (noMorePlat == false){
             changePlatforms(&player, platforms, &current_platform, &noMorePlat);
-        }
+        } 
+        // else {
+        //     printf("Game Over!\n");
+        // }
 
         // clear screen by making it black
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
