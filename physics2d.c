@@ -4,10 +4,12 @@ void collideRect(Agent *agent, Platform *platform) {
 
 }
 
-void changePlatforms(Agent *agent, Platform platforms[2], int *current_platform, bool *noMorePlat) {
+void changePlatforms(Agent *agent, Platform platforms[], int *current_platform, bool *noMorePlat, int lenPlatforms) {
     bool incremented = false;
+    // printf("lenPlatforms: %d\n", lenPlatforms);
+
     for (int i =0; i <= *current_platform; i++) {
-        if (*current_platform >= 2) {
+        if (*current_platform >= lenPlatforms+1) {
             printf("You fell off!\n");
             *noMorePlat = true;
             *current_platform -= 1;
@@ -19,7 +21,7 @@ void changePlatforms(Agent *agent, Platform platforms[2], int *current_platform,
             break;
         }
         else if (onLedge(agent, &platforms[*current_platform]) == 1) {
-            if (incremented == false && *current_platform <= 1) {
+            if (incremented == false && *current_platform <= lenPlatforms) {
                 // printf("*current_platform: %d\n", *current_platform);
                 *current_platform += 1;
                 incremented = true;
