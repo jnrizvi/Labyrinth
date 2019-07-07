@@ -50,7 +50,8 @@ int main(int argc, char** argv) {
 
     int current_platform = 0;
     bool noMorePlat =false;
-    
+
+
     while(done == 0) {
         
         done = processEvents(&player);
@@ -79,15 +80,20 @@ int main(int argc, char** argv) {
         // draw an image
         SDL_RenderCopyEx(renderer, player.sheetTexture, &player.currentSprite, &player_dest, 0, NULL, player.facingLeft);
         
-        brick_dest.x = brick.block_dest.x;
-        brick1_dest.x = brick1.block_dest.x;
-        for (int i = 0; i < brick.numBlocks; i++) {
-            SDL_RenderCopy(renderer, brick.pTexture, NULL, &brick_dest);
-            SDL_RenderCopy(renderer, brick1.pTexture, NULL, &brick1_dest);
-            brick_dest.x += brick.block_dest.w;
-            brick1_dest.x += brick1.block_dest.w;
+
+        for (int i = 0; i < 2; i++) {           // through the platforms array
+            for (int j = 0; j < platforms[i].numBlocks; j++) {
+                SDL_RenderCopy(renderer, platforms[i].pTexture, NULL, &platforms[i].block_dest);
+                platforms[i].block_dest.x += platforms[i].block_dest.w;
+            }  
+        }
+        for (int h = 0; h < 2; h++) {
+            platforms[h].block_dest.x -= (platforms[h].block_dest.w * platforms[h].numBlocks);
         }
 
+        
+        
+        
         SDL_RenderPresent(renderer);
 
         SDL_Delay(10);
