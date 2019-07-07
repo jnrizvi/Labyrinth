@@ -18,6 +18,10 @@ void updateSpriteFrame(Agent *agent) {
     else {
         agent->currentFramex = 0;
     }
+    if (keystate[SDL_SCANCODE_S]) {
+        agent->currentFramex = 6;
+    }
+    
 }
 
 int main(int argc, char** argv) {

@@ -3,7 +3,7 @@
 int processEvents(Agent *agent) {
     SDL_Event event;
     int done = 0;
-
+    float normalSpeed = 3;
     while(SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
             done = 1;
@@ -11,18 +11,20 @@ int processEvents(Agent *agent) {
     }
 
     const Uint8 *keystate = SDL_GetKeyboardState(NULL);
-    
+    if (keystate[SDL_SCANCODE_S]) {
+        normalSpeed *= 0.5;
+    }
     if (keystate[SDL_SCANCODE_A]) {
-        agent->x -= 3;
-        agent->coll.leftEdge -= 3;
-        agent->coll.rightEdge -= 3;
+        agent->x -= normalSpeed;
+        agent->coll.leftEdge -= normalSpeed;
+        agent->coll.rightEdge -= normalSpeed;
         agent->walking = 1;
         agent->facingLeft = 1;
     }
     else if(keystate[SDL_SCANCODE_D]) {
-        agent->x += 3;
-        agent->coll.leftEdge += 3;
-        agent->coll.rightEdge += 3;
+        agent->x += normalSpeed;
+        agent->coll.leftEdge += normalSpeed;
+        agent->coll.rightEdge += normalSpeed;
         agent->walking = 1;
         agent->facingLeft = 0;
     }
@@ -36,10 +38,7 @@ int processEvents(Agent *agent) {
     }
     
     
-    // if(keystate[SDL_SCANCODE_DOWN])
-    // {
-    //     //agent->y += 10;  change to mario's crouch animation
-    // }
+    
 
     return done;
 }
