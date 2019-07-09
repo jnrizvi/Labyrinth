@@ -8,19 +8,24 @@ void updateSpriteFrame(Agent *agent) {
     
     // continuous-response keys
     if (keystate[SDL_SCANCODE_A]) {
+        agent->currentFramey = 1;
         agent->currentFramex++;
-        agent->currentFramex %= 3;
+        agent->currentFramex %= 6;
     }
     else if (keystate[SDL_SCANCODE_D]) {
+        agent->currentFramey = 1;
+        agent->currentFramex++;
+        agent->currentFramex %= 6;
+    }
+    else {
+        agent->currentFramey = 0;
         agent->currentFramex++;
         agent->currentFramex %= 3;
     }
-    else {
-        agent->currentFramex = 0;
-    }
-    if (keystate[SDL_SCANCODE_S]) {
-        agent->currentFramex = 6;
-    }
+    // if (keystate[SDL_SCANCODE_S]) {
+    //     agent->currentFramex = 6;
+
+    // }
     
 }
 
@@ -37,8 +42,8 @@ int main(int argc, char** argv) {
     Mix_Chunk *laserEffect = Mix_LoadWAV("audioFiles/Laser_Shoot7.wav");
     
 
-    SDL_Rect player_dest = createRect(300, 50, 32, 64);
-    Agent player = initAgent("imageFiles/mario.png", player_dest, 0, 0, 0, renderer);
+    SDL_Rect player_dest = createRect(300, 50, 46, 60);
+    Agent player = initAgent("imageFiles/newAdventurer1-1.png", player_dest, 0, 0, 0, renderer);
 
     SDL_Rect brick_dest = createRect(256, 192, 32, 32);
     Platform brick = initPlatform("imageFiles/brick.png", brick_dest, 7, renderer);
