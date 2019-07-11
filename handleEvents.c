@@ -32,7 +32,8 @@ int processEvents(Agent *agent) {
         agent->walking = 0;
     }
 
-    if (keystate[SDL_SCANCODE_W] && agent->dy==0 && agent->jumpAgain==true) {
+    if (keystate[SDL_SCANCODE_W] && !agent->falling && agent->jumpAgain==true) {
+        agent->falling = true;
         agent->jumpAgain = false;
         agent->dy = -10;
     }

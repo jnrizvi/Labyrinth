@@ -16,7 +16,10 @@ Agent initAgent(char* textureName, SDL_Rect agent_dest, int facingLeft, int curr
     agent.sprite_h = agent_dest.h;
     
     agent.dy = 0;
+    agent.falling = true;
+
     agent.facingLeft = facingLeft;
+
     agent.currentFramex = currentFramex;
     agent.currentFramey = currentFramey;
     SDL_Rect currentSprite;

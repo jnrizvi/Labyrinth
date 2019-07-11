@@ -21,6 +21,7 @@ typedef struct {
     int currentFramex;
     int currentFramey;
     int walking;
+    bool falling;
     int facingLeft;
     bool jumpAgain;
     int sprite_w, sprite_h;
