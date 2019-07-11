@@ -43,12 +43,15 @@ int onLedge(Agent *agent, Platform *platform) {
     int result;
     if ( agent->coll.bottom >= platform->coll.top) {
         // above/on the current platform
+        agent->falling = false;
         if (agent->coll.rightEdge >= platform->coll.leftEdge && agent->coll.leftEdge <= platform->coll.rightEdge) {
             // remained on the current platform
-            
+            agent->y = platform->coll.top - agent->sprite_h;
             agent->jumpAgain = true;
-            agent->falling = false;
-            
+            agent->coll.bottom = platform->coll.top; 
+            agent->coll.top = agent->y;                                                                            
+            agent->dy = 0;
+
             result = 0; 
         }
         else {
@@ -61,13 +64,9 @@ int onLedge(Agent *agent, Platform *platform) {
 }
 
 void gravity(Agent *agent) {
-    if (agent->falling == true) {
-        agent->y += agent->dy;
-        agent->coll.bottom += agent->dy;
-        agent->coll.top += agent->dy;
-        agent->dy += 0.5;
-    }
-    else {
-        agent->dy = 0;
-    }
+    agent->y += agent->dy;
+    agent->coll.bottom += agent->dy;
+    agent->coll.top += agent->dy;
+    agent->dy += 0.5;
 }
+
