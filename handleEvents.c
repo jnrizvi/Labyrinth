@@ -15,11 +15,13 @@ int processEvents(Agent *agent) {
         normalSpeed *= 0.5;
     }
     if (keystate[SDL_SCANCODE_A]) {
-        agent->x -= normalSpeed;
-        agent->coll.leftEdge -= normalSpeed;
-        agent->coll.rightEdge -= normalSpeed;
-        agent->walking = 1;
-        agent->facingLeft = 1;
+        if ( !(agent->coll.leftEdge <= 300) ) {
+            agent->x -= normalSpeed;
+            agent->coll.leftEdge -= normalSpeed;
+            agent->coll.rightEdge -= normalSpeed;
+            agent->walking = 1;
+            agent->facingLeft = 1;
+        }
     }
     else if(keystate[SDL_SCANCODE_D]) {
         agent->x += normalSpeed;

@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
     Mix_Chunk *laserEffect = Mix_LoadWAV("audioFiles/Laser_Shoot7.wav");
     
 
-    SDL_Rect player_dest = createRect(300, 50, 32, 64);
+    SDL_Rect player_dest = createRect(350, 50, 32, 64);
     Agent player = initAgent("imageFiles/mario.png", player_dest, 0, 0, 0, renderer);
 
     SDL_Rect brick_dest = createRect(256, 192, 32, 32);
@@ -68,7 +68,6 @@ int main(int argc, char** argv) {
     bool noMorePlat =false;
 
     while(done == 0) {
-        
         done = processEvents(&player);
         frameTime += 1;
         if (FPS / frameTime == 10) {
