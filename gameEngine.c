@@ -44,19 +44,19 @@ int main(int argc, char** argv) {
     Mix_Chunk *laserEffect = Mix_LoadWAV("audioFiles/Laser_Shoot7.wav");
     
 
-    SDL_Rect player_dest = createRect(350, 50, 32, 64);
+    SDL_Rect player_dest = createRect(350, 0, 32, 64);
     Agent player = initAgent("imageFiles/mario.png", player_dest, 0, 0, 0, renderer);
 
-    SDL_Rect brick_dest = createRect(288, 128, 32, 32);
+    SDL_Rect brick_dest = createRect(288, 64, 32, 32);
     Platform brick = initPlatform("imageFiles/brick.png", brick_dest, 7, renderer);
 
-    SDL_Rect brick1_dest = createRect(256, 160, 32, 32);
+    SDL_Rect brick1_dest = createRect(256, 96, 32, 32);
     Platform brick1 = initPlatform("imageFiles/brick.png", brick1_dest, 7, renderer);
 
-    SDL_Rect brick2_dest = createRect(224, 192, 32, 32);
+    SDL_Rect brick2_dest = createRect(224, 128, 32, 32);
     Platform brick2 = initPlatform("imageFiles/brick.png", brick2_dest, 7, renderer);
 
-    SDL_Rect brick3_dest = createRect(196, 224, 32, 32);
+    SDL_Rect brick3_dest = createRect(192, 160, 32, 32);
     Platform brick3 = initPlatform("imageFiles/brick.png", brick3_dest, 7, renderer);
 
     
@@ -116,11 +116,11 @@ int main(int argc, char** argv) {
                 }
             }
 
-            else if (player.coll.bottom >= (row+1)*32) {
-                player.y = (row+1)*32;
+            if (player.coll.bottom >= 192) {  //(row+1)*32)
+                player.y = 192 - player.sprite_h;  // (row+1)*32)
                 player.jumpAgain = true;
                 player.falling = false;
-                player.coll.bottom = (row+1)*32 + 64; 
+                player.coll.bottom = 192; //(row+1)*32) +64
                 player.coll.top = player.y;                                                                            
                 player.dy = 0;
             }
