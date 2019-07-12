@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
         {0, 0, 0, 0},
         {0, 0, 0, 0},
         {0, 0, 0, 0},
-        {0, 0, 0, 0},
+        {1, 0, 0, 0},
         {1, 1, 1, 0}
     };
     int done = 0;
@@ -82,62 +82,85 @@ int main(int argc, char** argv) {
     int row =0;
     int col = 1;
     while(done == 0) {
-        done = processEvents(&player, &refX, &refY);
+        done = processEvents(&player, &refX, &refY, &row, &col);
         frameTime += 1;
         if (FPS / frameTime == 10) {
             frameTime = 0;
             updateSpriteFrame(&player);
         }
         
-        // gravity(&player, &refY);
         if (player.falling == true) {   
-            // player.y += 4;
-            // player.coll.bottom += 4;
-            // player.coll.top += 4;
-            // refY += 4;
             gravity(&player, &refY);
         }
-        
-        
-        
-        // printf("player.dy: %f\n", player.dy);
-        printf("row: %d\n", row);
-        // refY %= 32;
+
         if (refY > 32) {
-            // if (row+1 <= 6) {
-                
-            // printf("refGrid[row+1][col]: %d\n", refGrid[row+1][col]);
-            printf("player.coll.bottom : %f\n", player.coll.bottom);
-            if (refGrid[row+1][col] == 0) {
-                // printf("refY being reset\n");
-                refY = 0;
-                if (row + 1 <= 6) {
+            refY=0;
+            if (row + 1 <= 6) {
+                if (refGrid[row+1][col] == 1) {
+                    printf("refGrid[row+1][col]: %d\n", refGrid[row+1][col]);
+                    player.falling=false;
+                }
+                else {
+
                     row++;
+                    player.falling=true;
                 }
             }
-
-            if (player.coll.bottom >= 192) {  //(row+1)*32)
-                player.y = 192 - player.sprite_h;  // (row+1)*32)
-                player.jumpAgain = true;
-                player.falling = false;
-                player.coll.bottom = 192; //(row+1)*32) +64
-                player.coll.top = player.y;                                                                            
-                player.dy = 0;
-            }
-            printf("refY: %f\n", refY);
-            // }
         }
         if (refY < -32) {
-            if (row-1 >= 0) {
-                // printf("refY being reset\n");
+            refY=0;
+            if (row - 1 >= 0) {
                 if (refGrid[row-1][col] == 0) {
-                   
-                    refY = 0;
-                    if (row -1 >= 0)
-                        row--;
-                } 
+                    row--;
+                }
             }
         }
+        
+        printf("row: %d, refY: %f\n", row, refY);
+        printf("col: %d, refX: %f\n", col, refX);
+        printf("\nplayer.coll.bottom: %f\n", player.coll.bottom);
+        // printf("refY: %f\n", refY);
+        // if (refY > 32) {
+
+        //     // printf("player.dy: %f\n", player.dy);
+        //     printf("row: %d, refGrid[row+1][col]: %d\n", row, refGrid[row+1][col]);
+        //     if (refGrid[row+1][col] == 0) {
+        //         // printf("refY being reset\n");
+        //         refY = 0;
+        //         // player.falling = true;
+        //         if (row + 1 <= 6) {
+        //             row++;
+        //         }
+        //     }
+
+        //     if (refGrid[row+1][col] == 1) { // (row+1)*32
+        //         printf("(row+1)*32: %d\n", (row+1)*32);
+        //         printf("player.coll.bottom : %f\n", player.coll.bottom);
+        //         printf("row: %d, refGrid[row+1][col]: %d\n", row, refGrid[row+1][col]);
+        //         player.y = (row+1)*32 - player.sprite_h;  // (row+w1)*32 - 64
+        //         player.jumpAgain = true;
+        //         player.falling = false;
+        //         player.coll.bottom = (row+1)*32;  // (row+1)*32
+        //         player.coll.top = player.y;                                                                            
+        //         player.dy = 0;
+        //         refY = 0;
+        //     }    
+            
+        //     // printf("refY: %f\n", refY);
+        //     // }
+        // }
+        // if (refY < -32) {
+        //     refY = 0;
+        //     if (row-1 >= 0) {
+        //         // printf("refY being reset\n");
+        //         if (refGrid[row-1][col] == 0) {
+                   
+                    
+        //             if (row -1 >= 0)
+        //                 row--;
+        //         } 
+        //     }
+        // }
         
         
 

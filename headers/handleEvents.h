@@ -3,6 +3,6 @@
 
 # include "resources.h"
 
-int processEvents(Agent *agent, float *refX, float *refY);
+int processEvents(Agent *agent, float *refX, float *refY, int *row, int *col);
 
 #endif /* HANDLE_EVENTS */
