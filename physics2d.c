@@ -78,10 +78,12 @@ int onLedge(Agent *agent, Platform *platform) {
     return result;
 }
 
-void gravity(Agent *agent) {
+void gravity(Agent *agent, float *refY) {
+    
     agent->y += agent->dy;
     agent->coll.bottom += agent->dy;
     agent->coll.top += agent->dy;
+    *refY += agent->dy;
     agent->dy += 0.5;
 }
 

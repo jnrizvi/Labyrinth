@@ -46,6 +46,6 @@ typedef struct {
 
 
 
-int processEvents(Agent *agent);
+// int processEvents(Agent *agent);
 
 #endif /* RESOURCES */

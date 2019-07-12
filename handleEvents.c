@@ -1,9 +1,10 @@
 #include "headers/handleEvents.h"
 
-int processEvents(Agent *agent) {
+int processEvents(Agent *agent, float *refX, float *refY) {
     SDL_Event event;
     int done = 0;
     float normalSpeed = 3;
+    
     while(SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
             done = 1;
@@ -15,15 +16,16 @@ int processEvents(Agent *agent) {
         normalSpeed *= 0.5;
     }
     if (keystate[SDL_SCANCODE_A]) {
-        if ( !(agent->coll.leftEdge <= 300) ) {
-            agent->x -= normalSpeed;
-            agent->coll.leftEdge -= normalSpeed;
-            agent->coll.rightEdge -= normalSpeed;
-            agent->walking = 1;
-            agent->facingLeft = 1;
-        }
+        *refX -= normalSpeed;
+        agent->x -= normalSpeed;
+        agent->coll.leftEdge -= normalSpeed;
+        agent->coll.rightEdge -= normalSpeed;
+        agent->walking = 1;
+        agent->facingLeft = 1;
+        
     }
     else if(keystate[SDL_SCANCODE_D]) {
+        *refX += normalSpeed;
         agent->x += normalSpeed;
         agent->coll.leftEdge += normalSpeed;
         agent->coll.rightEdge += normalSpeed;
@@ -34,7 +36,7 @@ int processEvents(Agent *agent) {
         agent->walking = 0;
     }
 
-    if (keystate[SDL_SCANCODE_W] && agent->dy==0 && agent->jumpAgain==true) {
+    if (keystate[SDL_SCANCODE_W] && agent->falling==false && agent->jumpAgain==true) {
         agent->falling = true;
         agent->jumpAgain = false;
         agent->dy = -10;
