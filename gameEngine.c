@@ -80,7 +80,7 @@ int main(int argc, char** argv) {
     float refX = 0;
     float refY = 0;
     int row =0;
-    int col = 1;
+    int col = 0;
     while(done == 0) {
         done = processEvents(&player, &refX, &refY, &row, &col);
         frameTime += 1;
@@ -99,6 +99,8 @@ int main(int argc, char** argv) {
                 if (refGrid[row+1][col] == 1) {
                     printf("refGrid[row+1][col]: %d\n", refGrid[row+1][col]);
                     player.falling=false;
+                    player.dy = 0;
+                    refY = 33;
                 }
                 else {
 
