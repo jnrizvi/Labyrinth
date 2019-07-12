@@ -84,6 +84,6 @@ void gravity(Agent *agent, float *refY) {
     agent->coll.bottom += agent->dy;
     agent->coll.top += agent->dy;
     *refY += agent->dy;
-    agent->dy += 0.25;
+    agent->dy += 0.5;
 }
 

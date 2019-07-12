@@ -10,9 +10,10 @@ int processEvents(Agent *agent, float *refX, float *refY, int *row, int *col) {
         {0, 0, 0, 0},
         {0, 0, 0, 0},
         {0, 0, 0, 0},
-        {1, 0, 0, 0},
+        {0, 0, 0, 0},
         {1, 1, 1, 0}
     };
+    
     while(SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
             done = 1;
@@ -24,34 +25,48 @@ int processEvents(Agent *agent, float *refX, float *refY, int *row, int *col) {
         normalSpeed *= 0.5;
     }
     if (keystate[SDL_SCANCODE_A]) {
-        if (*col > 0) {
-            *refX -= normalSpeed;
-        }
-        agent->x -= normalSpeed;
-        agent->coll.leftEdge -= normalSpeed;
-        agent->coll.rightEdge -= normalSpeed;
-        agent->walking = 1;
+        
         agent->facingLeft = 1;
         if (*refX < -32) {
             *refX = 0;
             if (*col-1 >= 0) {
-                *col -= 1;
+                if (refGrid[*row][*col-1] == 1) {
+                    *refX =33;
+                }
+                else {
+                    *col -= 1;
+                    agent->x -= normalSpeed;
+                    agent->coll.leftEdge -= normalSpeed;
+                    agent->coll.rightEdge -= normalSpeed;
+                    agent->walking = 1;
+                    if (*col > 0) {
+                        *refX -= normalSpeed;
+                    }
+                }
             }
         }
     }
     else if(keystate[SDL_SCANCODE_D]) {
-        if (*col < 3){
-            *refX += normalSpeed;
-        }
-        agent->x += normalSpeed;
-        agent->coll.leftEdge += normalSpeed;
-        agent->coll.rightEdge += normalSpeed;
-        agent->walking = 1;
+        
         agent->facingLeft = 0;
         if (*refX > 32) {
             *refX = 0;
+            printf("beep\n");
             if (*col+1 < 4) {
-                *col += 1;
+                if (refGrid[*row][*col+1] == 1) {
+                    *refX =33;
+                }
+                else {
+                    
+                    *col += 1;
+                    agent->x += normalSpeed;
+                    agent->coll.leftEdge += normalSpeed;
+                    agent->coll.rightEdge += normalSpeed;
+                    agent->walking = 1;
+                    if (*col < 3){
+                        *refX += normalSpeed;
+                    }
+                }
             }
         }
     }
