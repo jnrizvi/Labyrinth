@@ -28,102 +28,66 @@ int processEvents(Agent *agent, int *curX, int *curY, int *delay) {
         if (*curY > 3) {
             *curY = 3;
         }
-        if ((*curY >= 0) && (agent->coll.leftEdge>=0)) {
+        if ((*curY > 0) ) {
             move(agent, -normalSpeed, 0);
         }
-        
-        // if (*delay <= 0){
-        //     *delay = 32;
-        //     if (*curY-1 >= 0) {
-        //         if (refGrid[*curX][*curY-1] == 0) {
-        //             *curY -= 1;
-        //             move(agent, -normalSpeed, 0);
-        //         }
-        //     }
-        // }
-        // else {
-        //     *delay -= 3;
-        // }
-        // if (agent->coll.leftEdge >= (*curY)*32) {
-        //     move(agent, -normalSpeed, 0);
-        // }
     }
 
     else if(keystate[SDL_SCANCODE_D]) {
-        // printf("rightEdge: %f\n", agent->coll.rightEdge);
         *curY = ((agent->coll.leftEdge) / 32);
         if (*curY > 3) {
             *curY = 3;
         }
-        // if (*delay <= 0) {
-        //     *delay = 32;
-            
-        //     if (*curY+1 < 4) {
-        //         if (refGrid[*curX][*curY+1] == 0) {
-        //             // *curY += 1;
-                    
-                    
-        //         }
-        //     }
-        // }
-        // else {
-        //     *delay -= 3;
-        // }
         if ((*curY < 4) && (agent->coll.rightEdge+normalSpeed<=128)) {
             move(agent, normalSpeed, 0);
         }
+    }
+    
+    if (keystate[SDL_SCANCODE_W]) {
+        *curX = ((agent->coll.top) / 32);
+        
+        if ((*curX >= 0) && (agent->coll.top>0) ) {
+            move(agent, -normalSpeed, 1);
+        }
+
         // if (*delay <= 0) {
         //     *delay = 32;
-        //     if (*curY+1 < 4) {
-        //         if (refGrid[*curX][*curY+1] == 0) {
-        //             *curY += 1;
-        //             move(agent, normalSpeed, 0);
+        //     if (*curX-1 >= 0) {
+        //         if (refGrid[*curX-1][*curY] == 0) {
+        //             *curX -= 1;
+        //             move(agent, -normalSpeed, 1);
         //         }
         //     }
         // }
         // else {
         //     *delay -= 3;
         // }
-        // if (agent->coll.rightEdge < (*curY+1)*32) {
-        //     // printf("moving right\n");
-        //     move(agent, normalSpeed, 0);
-        // }
-    }
-    else {
-        *delay = 0;
-    }
-    
-    if (keystate[SDL_SCANCODE_W]) {
-        if (*delay <= 0) {
-            *delay = 32;
-            if (*curX-1 >= 0) {
-                if (refGrid[*curX-1][*curY] == 0) {
-                    *curX -= 1;
-                    move(agent, -normalSpeed, 1);
-                }
-            }
-        }
-        else {
-            *delay -= 3;
-        }
         // if (agent->coll.top >= (*curX)*32) {
         //     move(agent, -normalSpeed, 1);
         // }
     }
 
     else if (keystate[SDL_SCANCODE_S]) {
-        if (*delay <= 0) {
-            *delay = 32;
-            if (*curX+1 < 7) {
-                if (refGrid[*curX+1][*curY] == 0) {
-                    *curX += 1;
-                    move(agent, normalSpeed, 1); 
-                }
-            }
+        *curX = ((agent->coll.bottom) / 32);
+        if (*curX > 6) {
+            *curX = 6;
         }
-        else {
-            *delay -= 3;
+        if ((*curX < 7) && (agent->coll.bottom<=192)) {
+            move(agent, normalSpeed, 1);
         }
+
+        // if (*delay <= 0) {
+        //     *delay = 32;
+        //     if (*curX+1 < 7) {
+        //         if (refGrid[*curX+1][*curY] == 0) {
+        //             *curX += 1;
+        //             move(agent, normalSpeed, 1); 
+        //         }
+        //     }
+        // }
+        // else {
+        //     *delay -= 3;
+        // }
         // if (agent->coll.bottom < (*curX+1)*32) {
         //     move(agent, normalSpeed, 1); 
         // }
