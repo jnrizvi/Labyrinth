@@ -4,42 +4,44 @@ void collideRect(Agent *agent, Platform *platform) {
 
 }
 
-void changePlatforms(Agent *agent, Platform platforms[], int *current_platform, bool *noMorePlat, int lenPlatforms) {
+int changePlatforms(Agent *agent, Platform platforms[], int current_platform, bool *noMorePlat, int lenPlatforms) {
     bool incremented = false;
     // printf("lenPlatforms: %d\n", lenPlatforms);
-    for (int i =0; i <= *current_platform; i++) {
-        if (*current_platform >= lenPlatforms+1) {
+    int index = current_platform;
+    for (int i =0; i <= index; i++) {
+        if (index >= lenPlatforms+1) {
             printf("You fell off!\n");
             *noMorePlat = true;
-            *current_platform -= 1;
+            index -= 1;
         }
-        
+        printf("hello\n");
         // printf("agent->y: %f, *current_platform: %d\n", agent->y, *current_platform);
         // printf("agent->x: %f\n", agent->x);
         // bump(agent, &platforms[*current_platform]);
-        if (onLedge(agent, &platforms[*current_platform]) == 0) {
+        if (onLedge(agent, &platforms[index]) == 0) {
             // printf("remained on platform %d\n", *current_platform);
             incremented = false;
             break;
         }
-        else if (onLedge(agent, &platforms[*current_platform]) == 1) {
-            if (incremented == false && *current_platform <= lenPlatforms) {
+        else if (onLedge(agent, &platforms[index]) == 1) {
+            if (incremented == false && index <= lenPlatforms) {
                 // printf("*current_platform: %d\n", *current_platform);
-                *current_platform += 1;
+                index += 1;
                 incremented = true;
             }
         }
         
         // printf("agent->y: %f, *current_platform: %d\n", agent->y, *current_platform);
-        if (*current_platform -1 >= 0) {
+        if (index -1 >= 0) {
             // printf("agent->y: %f, *current_platform: %d\n", agent->y, *current_platform);
-            if (agent->coll.bottom <= platforms[*current_platform-1].coll.top) {
+            if (agent->coll.bottom <= platforms[index-1].coll.top) {
                 // jumped at the level of a platform above
-                *current_platform -= 1;
+                index -= 1;
             }
             
         }
     }
+    return index;
 }
 
 void bump(Agent *agent, Platform *platform) {

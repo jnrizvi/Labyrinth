@@ -1,6 +1,6 @@
 #include "headers/handleEvents.h"
 
-int processEvents(Agent *agent, float *refX, float *refY, int *row, int *col) {
+int processEvents(Agent *agent, int *curX, int *curY, int *delay) {
     SDL_Event event;
     int done = 0;
     float normalSpeed = 3;
@@ -21,108 +21,95 @@ int processEvents(Agent *agent, float *refX, float *refY, int *row, int *col) {
     }
 
     const Uint8 *keystate = SDL_GetKeyboardState(NULL);
-    if (keystate[SDL_SCANCODE_S]) {
-        normalSpeed *= 0.5;
-    }
+    
+
     if (keystate[SDL_SCANCODE_A]) {
-        
-        agent->facingLeft = 1;
-        if (*refX < -32) {
-            *refX = 0;
-            if (*col-1 >= 0) {
-                if (refGrid[*row][*col-1] == 1) {
-                    *refX =33;
-                }
-                else {
-                    *col -= 1;
-                    agent->x -= normalSpeed;
-                    agent->coll.leftEdge -= normalSpeed;
-                    agent->coll.rightEdge -= normalSpeed;
-                    agent->walking = 1;
-                    if (*col > 0) {
-                        *refX -= normalSpeed;
-                    }
+        if (*delay == 0){
+            *delay = 8;
+            if (*curY-1 >= 0) {
+                if (refGrid[*curX][*curY-1] == 0) {
+                    *curY -= 1;    
                 }
             }
         }
-    }
-    else if(keystate[SDL_SCANCODE_D]) {
-        
-        agent->facingLeft = 0;
-        if (*refX > 32) {
-            *refX = 0;
-            printf("beep\n");
-            if (*col+1 < 4) {
-                if (refGrid[*row][*col+1] == 1) {
-                    *refX =33;
-                }
-                else {
-                    
-                    *col += 1;
-                    agent->x += normalSpeed;
-                    agent->coll.leftEdge += normalSpeed;
-                    agent->coll.rightEdge += normalSpeed;
-                    agent->walking = 1;
-                    if (*col < 3){
-                        *refX += normalSpeed;
-                    }
-                }
-            }
+        else {
+            *delay -= 1;
         }
-    }
-    else {
-        agent->walking = 0;
+        if (agent->coll.leftEdge >= (*curY-1)*32) {
+            move(agent, -normalSpeed, 0);
+        }
     }
 
-    if (keystate[SDL_SCANCODE_W] && agent->falling==false && agent->jumpAgain==true) {
-        agent->falling = true;
-        agent->jumpAgain = false;
-        agent->dy = -10;
+    else if(keystate[SDL_SCANCODE_D]) {
+        if (*delay == 0) {
+            *delay = 4;
+            if (*curY+1 < 4) {
+                if (refGrid[*curX][*curY+1] == 0) {
+                    *curY += 1;
+                      
+                }
+            }
+        }
+        else {
+            *delay -= 1;
+        }
+        if (agent->coll.rightEdge < (*curY+1)*32+32) {
+            // printf("moving right\n");
+            move(agent, normalSpeed, 0);
+        }
     }
     
-    
-    
+    if (keystate[SDL_SCANCODE_W]) {
+        if (*delay == 0) {
+            *delay = 8;
+            if (*curX-1 >= 0) {
+                if (refGrid[*curX-1][*curY] == 0) {
+                    *curX -= 1;
+                    move(agent, -normalSpeed, 1);  
+                }
+            }
+        }
+        else {
+            *delay -= 1;
+        }
+    }
+
+    if (keystate[SDL_SCANCODE_S]) {
+        if (*delay == 0) {
+            *delay = 8;
+            if (*curX+1 < 7) {
+                if (refGrid[*curX+1][*curY] == 0) {
+                    *curX += 1;
+                    move(agent, normalSpeed, 1);  
+                }
+            }
+        }
+        else {
+            *delay -= 1;
+        }
+    }
 
     return done;
 }
 
-// void foo() {
-//     printf("row: %d\n", row);
-//     if (refY > 32) {
-//         // if (row+1 <= 6) {
-            
-//         // printf("refGrid[row+1][col]: %d\n", refGrid[row+1][col]);
-//         printf("player.coll.bottom : %f\n", player.coll.bottom);
-//         if (refGrid[row+1][col] == 0) {
-//             // printf("refY being reset\n");
-//             refY = 0;
-//             if (row + 1 <= 6) {
-//                 row++;
-//             }
-//         }
-
-//         if (player.coll.bottom >= 192) {  //(row+1)*32)
-//             player.y = 192 - player.sprite_h;  // (row+1)*32)
-//             player.jumpAgain = true;
-//             player.falling = false;
-//             player.coll.bottom = 192; //(row+1)*32) +64
-//             player.coll.top = player.y;                                                                            
-//             player.dy = 0;
-//         }
-//         printf("refY: %f\n", refY);
-//         // }
-//     }
-//     if (refY < -32) {
-//         if (row-1 >= 0) {
-//             // printf("refY being reset\n");
-//             if (refGrid[row-1][col] == 0) {
-               
-//                 refY = 0;
-//                 if (row -1 >= 0)
-//                     row--;
-//             } 
-//         }
-//     }
-// }
+void move(Agent *agent, int distance, int dir) {
+    if (dir == 0) {
+        if (distance>0) {
+            agent->facingLeft = 0;
+        }
+        else {
+            agent->facingLeft = 1;
+        }
+        agent->x += distance;
+        agent->coll.leftEdge += distance;
+        agent->coll.rightEdge += distance;
+    }
+    else {
+        agent->y += distance;
+        agent->coll.top += distance;
+        agent->coll.bottom += distance;
+        
+    }
+}
 
 

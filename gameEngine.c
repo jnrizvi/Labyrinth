@@ -44,19 +44,19 @@ int main(int argc, char** argv) {
     Mix_Chunk *laserEffect = Mix_LoadWAV("audioFiles/Laser_Shoot7.wav");
     
 
-    SDL_Rect player_dest = createRect(350, 0, 32, 64);
+    SDL_Rect player_dest = createRect(0, 0, 32, 64);
     Agent player = initAgent("imageFiles/mario.png", player_dest, 0, 0, 0, renderer);
 
-    SDL_Rect brick_dest = createRect(288, 64, 32, 32);
+    SDL_Rect brick_dest = createRect(96, 64, 32, 32);
     Platform brick = initPlatform("imageFiles/brick.png", brick_dest, 7, renderer);
 
-    SDL_Rect brick1_dest = createRect(256, 96, 32, 32);
+    SDL_Rect brick1_dest = createRect(64, 96, 32, 32);
     Platform brick1 = initPlatform("imageFiles/brick.png", brick1_dest, 7, renderer);
 
-    SDL_Rect brick2_dest = createRect(224, 128, 32, 32);
+    SDL_Rect brick2_dest = createRect(32, 128, 32, 32);
     Platform brick2 = initPlatform("imageFiles/brick.png", brick2_dest, 7, renderer);
 
-    SDL_Rect brick3_dest = createRect(192, 160, 32, 32);
+    SDL_Rect brick3_dest = createRect(0, 160, 32, 32);
     Platform brick3 = initPlatform("imageFiles/brick.png", brick3_dest, 7, renderer);
 
     
@@ -79,96 +79,23 @@ int main(int argc, char** argv) {
     bool noMorePlat =false;
     float refX = 0;
     float refY = 0;
-    int row =0;
-    int col = 1;
+    int curX =0;
+    int curY = 0;
+    int delay = 8;
     while(done == 0) {
-        done = processEvents(&player, &refX, &refY, &row, &col);
+        done = processEvents(&player, &curX, &curY, &delay);
         frameTime += 1;
         if (FPS / frameTime == 10) {
             frameTime = 0;
             updateSpriteFrame(&player);
         }
         
-        if (player.falling == true) {   
-            gravity(&player, &refY);
-        }
-
-        if (refY > 32) {
-            refY=0;
-            if (row + 1 <= 6) {
-                if (refGrid[row+1][col] == 1) {
-                    printf("refGrid[row+1][col]: %d\n", refGrid[row+1][col]);
-                    player.falling=false;
-                    player.jumpAgain=true;
-                    player.dy = 0;
-                    refY = 33;
-                }
-                else {
-
-                    row++;
-                    player.falling=true;
-                }
-            }
-        }
-        if (refY < -32) {
-            refY=0;
-            if (row - 1 >= 0) {
-                if (refGrid[row-1][col] == 0) {
-                    row--;
-                }
-            }
-        }
-        
-        printf("row: %d, refY: %f\n", row, refY);
-        printf("col: %d, refX: %f\n", col, refX);
-        printf("\nplayer.coll.bottom: %f\n", player.coll.bottom);
-        // printf("refY: %f\n", refY);
-        // if (refY > 32) {
-
-        //     // printf("player.dy: %f\n", player.dy);
-        //     printf("row: %d, refGrid[row+1][col]: %d\n", row, refGrid[row+1][col]);
-        //     if (refGrid[row+1][col] == 0) {
-        //         // printf("refY being reset\n");
-        //         refY = 0;
-        //         // player.falling = true;
-        //         if (row + 1 <= 6) {
-        //             row++;
-        //         }
-        //     }
-
-        //     if (refGrid[row+1][col] == 1) { // (row+1)*32
-        //         printf("(row+1)*32: %d\n", (row+1)*32);
-        //         printf("player.coll.bottom : %f\n", player.coll.bottom);
-        //         printf("row: %d, refGrid[row+1][col]: %d\n", row, refGrid[row+1][col]);
-        //         player.y = (row+1)*32 - player.sprite_h;  // (row+w1)*32 - 64
-        //         player.jumpAgain = true;
-        //         player.falling = false;
-        //         player.coll.bottom = (row+1)*32;  // (row+1)*32
-        //         player.coll.top = player.y;                                                                            
-        //         player.dy = 0;
-        //         refY = 0;
-        //     }    
-            
-        //     // printf("refY: %f\n", refY);
-        //     // }
-        // }
-        // if (refY < -32) {
-        //     refY = 0;
-        //     if (row-1 >= 0) {
-        //         // printf("refY being reset\n");
-        //         if (refGrid[row-1][col] == 0) {
-                   
-                    
-        //             if (row -1 >= 0)
-        //                 row--;
-        //         } 
-        //     }
-        // }
+        // gravity(&player, &refY);
         
         
 
         // if (noMorePlat == false){
-        //     changePlatforms(&player, platforms, &current_platform, &noMorePlat, lenPlatforms);
+        //     current_platform = changePlatforms(&player, platforms, current_platform, &noMorePlat, lenPlatforms);
         // }
         
         // clear screen by making it black
@@ -206,7 +133,9 @@ int main(int argc, char** argv) {
     Mix_FreeChunk(jumpEffect);
     Mix_FreeChunk(laserEffect);
     SDL_DestroyTexture(player.sheetTexture);
-    SDL_DestroyTexture(brick.pTexture);
+    for (int i =0; i < lenPlatforms; i++) {
+        SDL_DestroyTexture(platforms[i].pTexture);
+    }
     destroyEnvironment();
     return 0;
 }
