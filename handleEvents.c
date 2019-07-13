@@ -43,8 +43,9 @@ int processEvents(Agent *agent, int *curX, int *curY, int *delay) {
         }
     }
     
-    if (keystate[SDL_SCANCODE_W]) {
+    if (keystate[SDL_SCANCODE_W] && (agent->jumpAgain==true)) {
         agent->dy = -10;
+        agent->jumpAgain = false;
         // *curX = ((agent->coll.top) / 32);
         
         // if ((*curX >= 0) && (agent->coll.top>0) ) {

@@ -47,16 +47,16 @@ int main(int argc, char** argv) {
     SDL_Rect player_dest = createRect(0, 0, 32, 64);
     Agent player = initAgent("imageFiles/mario.png", player_dest, 0, 0, 0, renderer);
 
-    SDL_Rect brick_dest = createRect(96, 64, 32, 32);
+    SDL_Rect brick_dest = createRect(0, 160, 32, 32);
     Platform brick = initPlatform("imageFiles/brick.png", brick_dest, 7, renderer);
 
-    SDL_Rect brick1_dest = createRect(64, 68, 32, 32);
+    SDL_Rect brick1_dest = createRect(0, 192, 32, 32);
     Platform brick1 = initPlatform("imageFiles/brick.png", brick1_dest, 7, renderer);
 
-    SDL_Rect brick2_dest = createRect(32, 66, 32, 32);
+    SDL_Rect brick2_dest = createRect(32, 192, 32, 32);
     Platform brick2 = initPlatform("imageFiles/brick.png", brick2_dest, 7, renderer);
 
-    SDL_Rect brick3_dest = createRect(0, 64, 32, 32);
+    SDL_Rect brick3_dest = createRect(64, 192, 32, 32);
     Platform brick3 = initPlatform("imageFiles/brick.png", brick3_dest, 7, renderer);
 
     
@@ -99,13 +99,20 @@ int main(int argc, char** argv) {
             curX = 6;
         }
         if ((curX < 7) && (player.coll.bottom<=192) && (player.dy > 0)) {
-            move(&player, 3, 1);
+            player.y += player.dy;
+            player.coll.bottom += player.dy;
+            player.coll.top += player.dy;
+            // move(&player, 3, 1);
         }
         else if ((curX >= 0) && (player.coll.top>0) && (player.dy < 0)) {
-            move(&player, -3, 1);
+            player.y += player.dy;
+            player.coll.bottom += player.dy;
+            player.coll.top += player.dy;
+            // move(&player, -3, 1);
         }
         else {
             player.dy = 0;
+            player.jumpAgain = true;
         }
         
 
