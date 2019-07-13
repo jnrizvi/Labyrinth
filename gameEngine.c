@@ -81,9 +81,10 @@ int main(int argc, char** argv) {
     float refY = 0;
     int curX =0;
     int curY = 0;
-    int delay = 8;
+    int delay = 0;
     while(done == 0) {
         done = processEvents(&player, &curX, &curY, &delay);
+        printf("curX: %d, curY: %d\n", curX, curY);
         frameTime += 1;
         if (FPS / frameTime == 10) {
             frameTime = 0;
