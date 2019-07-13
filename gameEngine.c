@@ -85,14 +85,28 @@ int main(int argc, char** argv) {
     while(done == 0) {
         done = processEvents(&player, &curX, &curY, &delay);
         printf("curX: %d, curY: %d\n", curX, curY);
+        printf("dy: %f\n", player.dy);
         frameTime += 1;
         if (FPS / frameTime == 10) {
             frameTime = 0;
             updateSpriteFrame(&player);
         }
         
-        // gravity(&player, &refY);
+        gravity(&player, &refY);
+        curX = ((player.coll.bottom) / 32);
         
+        if (curX > 6) {
+            curX = 6;
+        }
+        if ((curX < 7) && (player.coll.bottom<=192) && (player.dy > 0)) {
+            move(&player, 3, 1);
+        }
+        else if ((curX >= 0) && (player.coll.top>0) && (player.dy < 0)) {
+            move(&player, -3, 1);
+        }
+        else {
+            player.dy = 0;
+        }
         
 
         // if (noMorePlat == false){
