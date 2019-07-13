@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
         {0, 0, 0, 0},
         {0, 0, 0, 0},
         {0, 0, 0, 0},
-        {0, 0, 0, 0},
+        {1, 0, 0, 0},
         {1, 1, 1, 0}
     };
     int done = 0;
@@ -81,39 +81,41 @@ int main(int argc, char** argv) {
     float refY = 0;
     int curX =0;
     int curY = 0;
+    int bCurY = 0;
+    int fCurY = 0;
     int delay = 0;
     while(done == 0) {
-        done = processEvents(&player, &curX, &curY, &delay);
-        printf("curX: %d, curY: %d\n", curX, curY);
-        printf("dy: %f\n", player.dy);
+        done = processEvents(&player, &curX, &curY, &bCurY, &fCurY);
+        // printf("curX: %d, curY: %d\n", curX, curY);
+        // printf("rightEdge: %f\n", player.coll.rightEdge);
         frameTime += 1;
         if (FPS / frameTime == 10) {
             frameTime = 0;
             updateSpriteFrame(&player);
         }
         
-        gravity(&player, &refY);
-        curX = ((player.coll.bottom) / 32);
+        // gravity(&player, &refY);
+        // curX = ((player.coll.bottom) / 32)-1;
         
-        if (curX > 6) {
-            curX = 6;
-        }
-        if ((curX < 7) && (player.coll.bottom<=192) && (player.dy > 0)) {
-            player.y += player.dy;
-            player.coll.bottom += player.dy;
-            player.coll.top += player.dy;
+        // if (curX > 6) {
+        //     curX = 6;
+        // }
+        // if ((curX < 7) && (refGrid[curX+1][curY]==0) && (player.dy > 0)) {
+            // player.y += player.dy;
+            // player.coll.bottom += player.dy;
+            // player.coll.top += player.dy;
             // move(&player, 3, 1);
-        }
-        else if ((curX >= 0) && (player.coll.top>0) && (player.dy < 0)) {
-            player.y += player.dy;
-            player.coll.bottom += player.dy;
-            player.coll.top += player.dy;
+        // }
+        // else if ((curX >= 0) && (player.coll.top>0) && (player.dy < 0)) {
+            // player.y += player.dy;
+            // player.coll.bottom += player.dy;
+            // player.coll.top += player.dy;
             // move(&player, -3, 1);
-        }
-        else {
-            player.dy = 0;
-            player.jumpAgain = true;
-        }
+        // }
+        // else {
+            // player.dy = 0;
+            // player.jumpAgain = true;
+        // }
         
 
         // if (noMorePlat == false){

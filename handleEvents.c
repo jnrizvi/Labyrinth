@@ -1,6 +1,6 @@
 #include "headers/handleEvents.h"
 
-int processEvents(Agent *agent, int *curX, int *curY, int *delay) {
+int processEvents(Agent *agent, int *curX, int *curY, int *bCurY, int *fCurY) {
     SDL_Event event;
     int done = 0;
     float normalSpeed = 3;
@@ -10,7 +10,7 @@ int processEvents(Agent *agent, int *curX, int *curY, int *delay) {
         {0, 0, 0, 0},
         {0, 0, 0, 0},
         {0, 0, 0, 0},
-        {0, 0, 0, 0},
+        {1, 0, 0, 0},
         {1, 1, 1, 0}
     };
     
@@ -22,46 +22,78 @@ int processEvents(Agent *agent, int *curX, int *curY, int *delay) {
 
     const Uint8 *keystate = SDL_GetKeyboardState(NULL);
     
-
+    
+    *bCurY = ((agent->coll.leftEdge) / 32);
+    *fCurY = ((agent->coll.rightEdge) / 32);
+    
     if (keystate[SDL_SCANCODE_A]) {
-        *curY = ((agent->coll.rightEdge) / 32);
-        if (*curY > 3) {
-            *curY = 3;
+        *bCurY = ((agent->coll.rightEdge) / 32);
+        *fCurY = ((agent->coll.leftEdge) / 32);
+        if (*fCurY > 3) {
+            *fCurY = 3;
         }
-        if ((*curY > 0) ) {
+
+        if (((refGrid[*curX+1][*bCurY]==0) && (refGrid[*curX+1][*fCurY]==0)) || ((refGrid[*curX+1][*bCurY]==1) && (refGrid[*curX+1][*fCurY]==1))) {
+            *curY = *fCurY;
+        }
+        else if ((refGrid[*curX+1][*bCurY]==1) && (refGrid[*curX+1][*fCurY]==0)) {
+            *curY = *bCurY;
+        }
+        else if ((refGrid[*curX+1][*bCurY]==0) && (refGrid[*curX+1][*fCurY]==1)) {
+            *curY = *fCurY;
+        }
+        printf("*curX: %d, *curY: %d\n", *curX, *curY);
+        printf("Back (looking down): %d, Front (looking down): %d\n", refGrid[*curX+1][*bCurY], refGrid[*curX+1][*fCurY]);
+
+        if ((*fCurY > 0) ) {
             move(agent, -normalSpeed, 0);
         }
     }
 
     else if(keystate[SDL_SCANCODE_D]) {
-        *curY = ((agent->coll.leftEdge) / 32);
-        if (*curY > 3) {
-            *curY = 3;
+        *bCurY = ((agent->coll.leftEdge) / 32);
+        *fCurY = ((agent->coll.rightEdge) / 32);
+        if (*fCurY > 3) {
+            *fCurY = 3;
         }
-        if ((*curY < 4) && (agent->coll.rightEdge+normalSpeed<=128)) {
+
+        if (((refGrid[*curX+1][*bCurY]==0) && (refGrid[*curX+1][*fCurY]==0)) || ((refGrid[*curX+1][*bCurY]==1) && (refGrid[*curX+1][*fCurY]==1))) {
+            *curY = *fCurY;
+        }
+        else if ((refGrid[*curX+1][*bCurY]==1) && (refGrid[*curX+1][*fCurY]==0)) {
+            *curY = *bCurY;
+        }
+        else if ((refGrid[*curX+1][*bCurY]==0) && (refGrid[*curX+1][*fCurY]==1)) {
+            *curY = *fCurY;
+        }
+
+        printf("*curX: %d, *curY: %d\n", *curX, *curY);
+        printf("Back (looking down): %d, Front (looking down): %d\n", refGrid[*curX+1][*bCurY], refGrid[*curX+1][*fCurY]);
+        
+        if ((*fCurY < 4) && (agent->coll.rightEdge<=128)) {
             move(agent, normalSpeed, 0);
         }
     }
     
-    if (keystate[SDL_SCANCODE_W] && (agent->jumpAgain==true)) {
-        agent->dy = -10;
-        agent->jumpAgain = false;
-        // *curX = ((agent->coll.top) / 32);
+    if (keystate[SDL_SCANCODE_W]) {
+        // agent->dy = -10;
+        // agent->jumpAgain = false;
+        *curX = ((agent->coll.top) / 32);
         
-        // if ((*curX >= 0) && (agent->coll.top>0) ) {
-        //     move(agent, -normalSpeed, 1);
-        // }
+        if ((*curX >= 0) && (agent->coll.top>0) ) {
+            move(agent, -normalSpeed, 1);
+        }
     }
 
-    // else if (keystate[SDL_SCANCODE_S]) {
-    //     *curX = ((agent->coll.bottom) / 32);
-    //     if (*curX > 6) {
-    //         *curX = 6;
-    //     }
-    //     if ((*curX < 7) && (agent->coll.bottom<=192)) {
-    //         move(agent, normalSpeed, 1);
-    //     }
-    // }
+    else if (keystate[SDL_SCANCODE_S]) {
+        *curX = ((agent->coll.bottom) / 32);
+        if (*curX > 6) {
+            *curX = 6;
+        }
+        if ((*curX < 7) && (agent->coll.bottom+normalSpeed<=224)) {
+            move(agent, normalSpeed, 1);
+        }
+    }
 
     return done;
 }
