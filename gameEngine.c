@@ -50,13 +50,13 @@ int main(int argc, char** argv) {
     SDL_Rect brick_dest = createRect(96, 64, 32, 32);
     Platform brick = initPlatform("imageFiles/brick.png", brick_dest, 7, renderer);
 
-    SDL_Rect brick1_dest = createRect(64, 96, 32, 32);
+    SDL_Rect brick1_dest = createRect(64, 68, 32, 32);
     Platform brick1 = initPlatform("imageFiles/brick.png", brick1_dest, 7, renderer);
 
-    SDL_Rect brick2_dest = createRect(32, 128, 32, 32);
+    SDL_Rect brick2_dest = createRect(32, 66, 32, 32);
     Platform brick2 = initPlatform("imageFiles/brick.png", brick2_dest, 7, renderer);
 
-    SDL_Rect brick3_dest = createRect(0, 160, 32, 32);
+    SDL_Rect brick3_dest = createRect(0, 64, 32, 32);
     Platform brick3 = initPlatform("imageFiles/brick.png", brick3_dest, 7, renderer);
 
     

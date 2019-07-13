@@ -3,7 +3,7 @@
 int processEvents(Agent *agent, int *curX, int *curY, int *delay) {
     SDL_Event event;
     int done = 0;
-    float normalSpeed = 32;
+    float normalSpeed = 3;
     int refGrid[][4] = {
         {0, 0, 0, 0},
         {0, 0, 0, 0},
@@ -24,38 +24,53 @@ int processEvents(Agent *agent, int *curX, int *curY, int *delay) {
     
 
     if (keystate[SDL_SCANCODE_A]) {
-        if (*delay <= 0){
-            *delay = 32;
-            if (*curY-1 >= 0) {
-                if (refGrid[*curX][*curY-1] == 0) {
-                    *curY -= 1;
-                    move(agent, -normalSpeed, 0);
-                }
-            }
+        *curY = ((agent->coll.rightEdge) / 32);
+        if (*curY > 3) {
+            *curY = 3;
         }
-        else {
-            *delay -= 3;
+        if ((*curY >= 0) && (agent->coll.leftEdge>=0)) {
+            move(agent, -normalSpeed, 0);
         }
+        
+        // if (*delay <= 0){
+        //     *delay = 32;
+        //     if (*curY-1 >= 0) {
+        //         if (refGrid[*curX][*curY-1] == 0) {
+        //             *curY -= 1;
+        //             move(agent, -normalSpeed, 0);
+        //         }
+        //     }
+        // }
+        // else {
+        //     *delay -= 3;
+        // }
         // if (agent->coll.leftEdge >= (*curY)*32) {
         //     move(agent, -normalSpeed, 0);
         // }
     }
 
     else if(keystate[SDL_SCANCODE_D]) {
-        *curY = agent->x / 32;
-        if (*delay <= 0) {
-            *delay = 32;
-            
-            if (*curY+1 < 4) {
-                if (refGrid[*curX][*curY+1] == 0) {
-                    // *curY += 1;
-                    
-                    move(agent, normalSpeed, 0);
-                }
-            }
+        // printf("rightEdge: %f\n", agent->coll.rightEdge);
+        *curY = ((agent->coll.leftEdge) / 32);
+        if (*curY > 3) {
+            *curY = 3;
         }
-        else {
-            *delay -= 3;
+        // if (*delay <= 0) {
+        //     *delay = 32;
+            
+        //     if (*curY+1 < 4) {
+        //         if (refGrid[*curX][*curY+1] == 0) {
+        //             // *curY += 1;
+                    
+                    
+        //         }
+        //     }
+        // }
+        // else {
+        //     *delay -= 3;
+        // }
+        if ((*curY < 4) && (agent->coll.rightEdge+normalSpeed<=128)) {
+            move(agent, normalSpeed, 0);
         }
         // if (*delay <= 0) {
         //     *delay = 32;
