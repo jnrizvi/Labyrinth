@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
         {0, 0, 0, 0},
         {0, 0, 0, 0},
         {0, 0, 0, 0},
-        {1, 0, 0, 0},
+        {1, 1, 0, 0},
         {1, 1, 1, 0}
     };
     int done = 0;
@@ -86,7 +86,8 @@ int main(int argc, char** argv) {
     int delay = 0;
     while(done == 0) {
         done = processEvents(&player, &curX, &curY, &bCurY, &fCurY);
-        // printf("curX: %d, curY: %d\n", curX, curY);
+        printf("curX: %d, curY: %d\n", curX, curY);
+        printf("Back (looking down): %d, Front (looking down): %d\n", refGrid[curX+1][bCurY], refGrid[curX+1][fCurY]);
         // printf("rightEdge: %f\n", player.coll.rightEdge);
         frameTime += 1;
         if (FPS / frameTime == 10) {
