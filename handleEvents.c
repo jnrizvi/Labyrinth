@@ -3,7 +3,7 @@
 int processEvents(Agent *agent, int *curX, int *curY, int *bCurY, int *fCurY) {
     SDL_Event event;
     int done = 0;
-    float normalSpeed = 3;
+    float normalSpeed = 1;
     int refGrid[][4] = {
         {0, 0, 0, 0},
         {0, 0, 0, 0},
@@ -29,10 +29,14 @@ int processEvents(Agent *agent, int *curX, int *curY, int *bCurY, int *fCurY) {
     if (keystate[SDL_SCANCODE_A]) {
         agent->facingLeft = 1;
         *bCurY = ((agent->coll.rightEdge) / 32);
-        *fCurY = ((agent->coll.leftEdge) / 32);
+        *fCurY = ((agent->coll.leftEdge)-1 / 32);
         // if (*fCurY == 0 && (agent->coll.leftEdge-1>32)) {
         //     *fCurY = 1;
         // }
+        if (*bCurY > 3) {
+            *bCurY = 3;
+        }
+
 
         // decision function
         if (*curX +1 <= 6) {
@@ -48,7 +52,7 @@ int processEvents(Agent *agent, int *curX, int *curY, int *bCurY, int *fCurY) {
         } 
         else {
             if (((refGrid[*curX][*bCurY]==0) && (refGrid[*curX][*fCurY]==0)) || ((refGrid[*curX][*bCurY]==1) && (refGrid[*curX][*fCurY]==1))) {
-                *curY = *fCurY;
+                *curY = *bCurY;
             }
             else if ((refGrid[*curX][*bCurY]==1) && (refGrid[*curX][*fCurY]==0)) {
                 *curY = *bCurY;
@@ -61,13 +65,14 @@ int processEvents(Agent *agent, int *curX, int *curY, int *bCurY, int *fCurY) {
         // printf("*curX: %d, *curY: %d\n", *curX, *curY);
         // printf("Back (looking down): %d, Front (looking down): %d\n", refGrid[*curX+1][*bCurY], refGrid[*curX+1][*fCurY]);
 
-        if ((*fCurY >= 0 && agent->coll.leftEdge+normalSpeed>=0) ) {
-            // if (*fCurY -1 >= 0) {
-            if (refGrid[*curX][*bCurY-1]==0) {
-                *curY = *bCurY;
-                move(agent, -normalSpeed, 0);
+        // if ((*fCurY >= 0 && agent->coll.leftEdge-normalSpeed>0) ) {
+        if (*bCurY-1 >= 0 ) {
+            if (*bCurY -1 >= 0) {
+                if (refGrid[*curX][*bCurY-1]==0) {
+                    *curY = *bCurY;
+                    move(agent, -normalSpeed, 0);
+                }
             }
-            // }
         }
     }
 
@@ -92,7 +97,7 @@ int processEvents(Agent *agent, int *curX, int *curY, int *bCurY, int *fCurY) {
         }
         else {
             if (((refGrid[*curX][*bCurY]==0) && (refGrid[*curX][*fCurY]==0)) || ((refGrid[*curX][*bCurY]==1) && (refGrid[*curX][*fCurY]==1))) {
-                *curY = *fCurY;
+                *curY = *bCurY;
             }
             else if ((refGrid[*curX][*bCurY]==1) && (refGrid[*curX][*fCurY]==0)) {
                 *curY = *bCurY;
