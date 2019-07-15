@@ -29,7 +29,7 @@ int processEvents(Agent *agent, int *curX, int *curY, int *bCurY, int *fCurY) {
     if (keystate[SDL_SCANCODE_A]) {
         agent->facingLeft = 1;
         *bCurY = ((agent->coll.rightEdge) / 32);
-        *fCurY = ((agent->coll.leftEdge)-1 / 32);
+        *fCurY = ((agent->coll.leftEdge) / 32);
         // if (*fCurY == 0 && (agent->coll.leftEdge-1>32)) {
         //     *fCurY = 1;
         // }
@@ -67,12 +67,12 @@ int processEvents(Agent *agent, int *curX, int *curY, int *bCurY, int *fCurY) {
 
         // if ((*fCurY >= 0 && agent->coll.leftEdge-normalSpeed>0) ) {
         if (*bCurY-1 >= 0 ) {
-            if (*bCurY -1 >= 0) {
-                if (refGrid[*curX][*bCurY-1]==0) {
-                    *curY = *bCurY;
-                    move(agent, -normalSpeed, 0);
-                }
+            
+            if (refGrid[*curX][*bCurY-1]==0) {
+                *curY = *bCurY;
+                move(agent, -normalSpeed, 0);
             }
+            
         }
     }
 
@@ -110,7 +110,8 @@ int processEvents(Agent *agent, int *curX, int *curY, int *bCurY, int *fCurY) {
         // printf("*curX: %d, *curY: %d\n", *curX, *curY);
         // printf("Back (looking down): %d, Front (looking down): %d\n", refGrid[*curX+1][*bCurY], refGrid[*curX+1][*fCurY]);
         
-        if ((*fCurY < 4) && (agent->coll.rightEdge+normalSpeed<=128)) {
+        // if ((*fCurY < 4) && (agent->coll.rightEdge+normalSpeed<=128)) {
+        if (*bCurY+1 < 4 ) {
             // if (*fCurY +1 <= 3) { 
             if (refGrid[*curX][*bCurY+1]==0) {
                 *curY = *bCurY;
