@@ -26,11 +26,14 @@ int processEvents(Agent *agent, int *curX, int *curY, int *bCurY, int *fCurY) {
     if (keystate[SDL_SCANCODE_A]) {
         agent->facingLeft = 1;
         *bCurY = ((agent->coll.rightEdge) / 32);
-        if ( fmod(agent->coll.rightEdge, 32.0)==0.0 ) {
-            printf("boop.\n");
+        // printf("value: %f\n", fmod(agent->coll.rightEdge, 32.0));
+        
+        if ( fmod(agent->coll.rightEdge, 32.0)==0.0) {
+            // printf("boop.\n");
             *bCurY -= 1;
         }
 
+        // printf("value: %f\n", fmod(agent->coll.leftEdge, 32.0));
         *fCurY = ((agent->coll.leftEdge) / 32);
 
         if (*bCurY > 3) {
@@ -68,7 +71,7 @@ int processEvents(Agent *agent, int *curX, int *curY, int *bCurY, int *fCurY) {
 
         // if ((*fCurY >= 0 && agent->coll.leftEdge-normalSpeed>0) ) {
         if (*bCurY-1 >= 0 ) {
-            if (refGrid[*curX][*bCurY-1]==0) {
+            if (refGrid[*curX][*bCurY-1]==0 ) {  // MUST ADJUST normalSpeed: to get the exact value at which remaider will be 0.0
                 *curY = *bCurY;
                 move(agent, -normalSpeed, 0);
             }   
@@ -122,6 +125,12 @@ int processEvents(Agent *agent, int *curX, int *curY, int *bCurY, int *fCurY) {
         if (*bCurY+1 < 4 ) {
             if (refGrid[*curX][*bCurY+1]==0) {
                 *curY = *bCurY;
+                printf("difference: %f\n", ((*bCurY+1)*32+32 - agent->coll.rightEdge));
+                if (normalSpeed > ((*bCurY+1)*32+32 - agent->coll.rightEdge)) {
+                    
+                    normalSpeed = ((*bCurY+1)*32+32 - agent->coll.rightEdge);
+                    // printf("normalSpeed: %f\n", normalSpeed);
+                }
                 move(agent, normalSpeed, 0);
             }
         }

@@ -79,7 +79,7 @@ int main(int argc, char** argv) {
     bool noMorePlat =false;
     float refX = 0;
     float refY = 0;
-    int curX =0;
+    int curX = 0;
     int curY = 0;
     int bCurY = 0;
     int fCurY = 0;
