@@ -73,6 +73,10 @@ int processEvents(Agent *agent, int *curX, int *curY, int *bCurY, int *fCurY) {
         if (*bCurY-1 >= 0 ) {
             if (refGrid[*curX][*bCurY-1]==0 ) {  // MUST ADJUST normalSpeed: to get the exact value at which remaider will be 0.0
                 *curY = *bCurY;
+                printf("difference: %f\n", (agent->coll.leftEdge - (*bCurY-1)*32));
+                if (normalSpeed > (agent->coll.leftEdge - (*bCurY-1)*32)) {
+                    normalSpeed = (agent->coll.leftEdge - (*bCurY-1)*32);
+                }
                 move(agent, -normalSpeed, 0);
             }   
         }
@@ -81,11 +85,6 @@ int processEvents(Agent *agent, int *curX, int *curY, int *bCurY, int *fCurY) {
     else if(keystate[SDL_SCANCODE_D]) {
         agent->facingLeft = 0;
         *bCurY = ((agent->coll.leftEdge) / 32);
-        // if ( fmod(agent->coll.leftEdge, 32.0)==0.0 ) {
-        //     printf("beep!\n");
-        //     *bCurY +=1;
-        // }
-
         *fCurY = ((agent->coll.rightEdge) / 32);
         
         if (*fCurY > 3) {
@@ -121,15 +120,12 @@ int processEvents(Agent *agent, int *curX, int *curY, int *bCurY, int *fCurY) {
         // printf("*curX: %d, *curY: %d\n", *curX, *curY);
         // printf("Back (looking down): %d, Front (looking down): %d\n", refGrid[*curX+1][*bCurY], refGrid[*curX+1][*fCurY]);
         
-        // if ((*fCurY < 4) && (agent->coll.rightEdge+normalSpeed<=128)) {
         if (*bCurY+1 < 4 ) {
             if (refGrid[*curX][*bCurY+1]==0) {
                 *curY = *bCurY;
-                printf("difference: %f\n", ((*bCurY+1)*32+32 - agent->coll.rightEdge));
+                // printf("difference: %f\n", ((*bCurY+1)*32+32 - agent->coll.rightEdge));
                 if (normalSpeed > ((*bCurY+1)*32+32 - agent->coll.rightEdge)) {
-                    
                     normalSpeed = ((*bCurY+1)*32+32 - agent->coll.rightEdge);
-                    // printf("normalSpeed: %f\n", normalSpeed);
                 }
                 move(agent, normalSpeed, 0);
             }
