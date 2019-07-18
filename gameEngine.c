@@ -24,10 +24,10 @@ void updateSpriteFrame(Agent *agent) {
         agent->currentFramex++;
         agent->currentFramex = 0;
     }
-    if (keystate[SDL_SCANCODE_S]) {
-        agent->currentFramex = 6;
+    // if (keystate[SDL_SCANCODE_S]) {
+    //     agent->currentFramex = 6;
 
-    }
+    // }
     
 }
 
@@ -77,8 +77,8 @@ int main(int argc, char** argv) {
     int refGrid[20][25] = {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0},
         {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -98,6 +98,7 @@ int main(int argc, char** argv) {
     };
 
     Platform brickCoords[500] = {0};
+    // printf("brickCoords: %lu\n", sizeof(brickCoords)/sizeof(brickCoords[0]));
     int index = 0;
     // int nTotal = sizeof(refGrid)/sizeof(int);
     int nColumns = sizeof(refGrid[0])/sizeof(int);

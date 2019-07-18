@@ -1,9 +1,10 @@
 #include "headers/handleEvents.h"
+#include "headers/physics2d.h"
 
 int processEvents(Agent *agent, int *curX, int *curY) {
     SDL_Event event;
     int done = 0;
-    float normalSpeed = 3;
+    float normalSpeed = 1;
     // int refGrid[][4] = {
     //     {0, 0, 0, 0},
     //     {0, 0, 0, 0},
@@ -16,8 +17,8 @@ int processEvents(Agent *agent, int *curX, int *curY) {
     int refGrid[20][25] = {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0},
         {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -35,9 +36,10 @@ int processEvents(Agent *agent, int *curX, int *curY) {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     };
+
     int nColumns = sizeof(refGrid[0])/sizeof(int);
     int nRows = sizeof(refGrid)/sizeof(refGrid[0]);
-    int bCurY, fCurY;
+    int bCurY, fCurY, lCurX, uCurX;
     while(SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
             done = 1;
@@ -106,7 +108,7 @@ int processEvents(Agent *agent, int *curX, int *curY) {
     else if(keystate[SDL_SCANCODE_D]) {
         agent->facingLeft = 0;
         bCurY = ((agent->coll.leftEdge) / 32);
-        fCurY = ((agent->coll.rightEdge) / 32);
+        fCurY = ((agent->coll.rightEdge-1) / 32);
         
         if (fCurY >= nColumns) {
             fCurY = nColumns-1;
@@ -157,20 +159,36 @@ int processEvents(Agent *agent, int *curX, int *curY) {
     if (keystate[SDL_SCANCODE_W]) {
         // agent->dy = -10;
         // agent->jumpAgain = false;
-        *curX = ((agent->coll.top) / 32);
+        lCurX = (agent->coll.bottom / 32);
+        uCurX = ((agent->coll.bottom-32) / 32);
         
-        if ((*curX >= 0) && (agent->coll.top>0) ) {
-            move(agent, -normalSpeed, 1);
+        *curX = lCurX;
+        
+        if (uCurX-1 >= 0 ) {
+            if (refGrid[uCurX-1][*curY]==0) {
+
+                move(agent, -normalSpeed, 1);
+            }
         }
     }
 
     else if (keystate[SDL_SCANCODE_S]) {
-        *curX = ((agent->coll.bottom) / 32);
-        if (*curX > 6) {
-            *curX = 6;
+        lCurX = ((agent->coll.bottom-1) / 32);
+        uCurX = ((agent->coll.bottom-32) / 32);
+
+        *curX = lCurX;
+
+        if (*curX >= nRows) {
+            *curX = nRows-1;
         }
-        if ((*curX < 7) && (agent->coll.bottom+normalSpeed<=224)) {
-            move(agent, normalSpeed, 1);
+
+        printf("lCurX: %d\n", lCurX);
+        if (uCurX+1 < nRows) {
+            // printf("can move down\n");
+            if (refGrid[uCurX+1][*curY]==0 ) {
+                
+                move(agent, normalSpeed, 1);
+            }
         }
     }
 
