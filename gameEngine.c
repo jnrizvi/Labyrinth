@@ -97,14 +97,13 @@ int main(int argc, char** argv) {
     // bool noMorePlat =false;
     int curX = 0;
     int curY = 0;
-    int bCurY = 0;
-    int fCurY = 0;
+    // int bCurY = 0;
+    // int fCurY = 0;
     
     while(done == 0) {
-        done = processEvents(&player, &curX, &curY, &bCurY, &fCurY);
+        done = processEvents(&player, &curX, &curY);
         printf("curX: %d, curY: %d\n", curX, curY);
-        printf("Back (looking down): %d, Front (looking down): %d\n", refGrid[curX+1][bCurY], refGrid[curX+1][fCurY]);
-        // printf("rightEdge: %f\n", player.coll.rightEdge);
+        // printf("Back (looking down): %d, Front (looking down): %d\n", refGrid[curX+1][bCurY], refGrid[curX+1][fCurY]);
         frameTime += 1;
         if (FPS / frameTime == 10) {
             frameTime = 0;

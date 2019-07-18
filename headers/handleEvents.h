@@ -4,6 +4,6 @@
 # include "resources.h"
 
 void move(Agent *agent, int distance, int dir);
-int processEvents(Agent *agent, int *curX, int *curY, int *bCurY, int *fCurY);
+int processEvents(Agent *agent, int *curX, int *curY);
 
 #endif /* HANDLE_EVENTS */

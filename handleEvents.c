@@ -1,6 +1,6 @@
 #include "headers/handleEvents.h"
 
-int processEvents(Agent *agent, int *curX, int *curY, int *bCurY, int *fCurY) {
+int processEvents(Agent *agent, int *curX, int *curY) {
     SDL_Event event;
     int done = 0;
     float normalSpeed = 3;
@@ -13,7 +13,7 @@ int processEvents(Agent *agent, int *curX, int *curY, int *bCurY, int *fCurY) {
         {1, 0, 1, 0},
         {1, 1, 1, 0}
     };
-    
+    int bCurY, fCurY;
     while(SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
             done = 1;
@@ -25,53 +25,53 @@ int processEvents(Agent *agent, int *curX, int *curY, int *bCurY, int *fCurY) {
     
     if (keystate[SDL_SCANCODE_A]) {
         agent->facingLeft = 1;
-        *bCurY = ((agent->coll.rightEdge) / 32);
+        bCurY = ((agent->coll.rightEdge) / 32);
         
         if ( fmod(agent->coll.rightEdge, 32.0)==0.0) {
-            *bCurY -= 1;
+            bCurY -= 1;
         }
 
-        *fCurY = ((agent->coll.leftEdge) / 32);
+        fCurY = ((agent->coll.leftEdge) / 32);
 
-        if (*bCurY > 3) {
-            *bCurY = 3;
+        if (bCurY > 3) {
+            bCurY = 3;
         }
 
         // decision function
         if (*curX +1 <= 6) {
-            if (((refGrid[*curX+1][*bCurY]==0) && (refGrid[*curX+1][*fCurY]==0)) || ((refGrid[*curX+1][*bCurY]==1) && (refGrid[*curX+1][*fCurY]==1))) {
-                *curY = *bCurY;
+            if (((refGrid[*curX+1][bCurY]==0) && (refGrid[*curX+1][fCurY]==0)) || ((refGrid[*curX+1][bCurY]==1) && (refGrid[*curX+1][fCurY]==1))) {
+                *curY = bCurY;
                 
             }
-            else if ((refGrid[*curX+1][*bCurY]==1) && (refGrid[*curX+1][*fCurY]==0)) {
-                *curY = *bCurY;
+            else if ((refGrid[*curX+1][bCurY]==1) && (refGrid[*curX+1][fCurY]==0)) {
+                *curY = bCurY;
             }
-            else if ((refGrid[*curX+1][*bCurY]==0) && (refGrid[*curX+1][*fCurY]==1)) {
-                *curY = *fCurY;
+            else if ((refGrid[*curX+1][bCurY]==0) && (refGrid[*curX+1][fCurY]==1)) {
+                *curY = fCurY;
             }    
         } 
         else {
-            if (((refGrid[*curX][*bCurY]==0) && (refGrid[*curX][*fCurY]==0)) || ((refGrid[*curX][*bCurY]==1) && (refGrid[*curX][*fCurY]==1))) {
-                *curY = *bCurY;
+            if (((refGrid[*curX][bCurY]==0) && (refGrid[*curX][fCurY]==0)) || ((refGrid[*curX][bCurY]==1) && (refGrid[*curX][fCurY]==1))) {
+                *curY = bCurY;
                 
             }
-            else if ((refGrid[*curX][*bCurY]==1) && (refGrid[*curX][*fCurY]==0)) {
-                *curY = *bCurY;
+            else if ((refGrid[*curX][bCurY]==1) && (refGrid[*curX][fCurY]==0)) {
+                *curY = bCurY;
             }
-            else if ((refGrid[*curX][*bCurY]==0) && (refGrid[*curX][*fCurY]==1)) {
-                *curY = *fCurY;
+            else if ((refGrid[*curX][bCurY]==0) && (refGrid[*curX][fCurY]==1)) {
+                *curY = fCurY;
             } 
         }
         
         // printf("*curX: %d, *curY: %d\n", *curX, *curY);
         // printf("Back (looking down): %d, Front (looking down): %d\n", refGrid[*curX+1][*bCurY], refGrid[*curX+1][*fCurY]);
 
-        if (*bCurY-1 >= 0 ) {
-            if (refGrid[*curX][*bCurY-1]==0 ) {
-                *curY = *bCurY;
+        if (bCurY-1 >= 0 ) {
+            if (refGrid[*curX][bCurY-1]==0 ) {
+                *curY = bCurY;
                 // printf("difference: %f\n", (agent->coll.leftEdge - (*bCurY-1)*32));
-                if (normalSpeed > (agent->coll.leftEdge - (*bCurY-1)*32)) {
-                    normalSpeed = (agent->coll.leftEdge - (*bCurY-1)*32);
+                if (normalSpeed > (agent->coll.leftEdge - (bCurY-1)*32)) {
+                    normalSpeed = (agent->coll.leftEdge - (bCurY-1)*32);
                 }
                 move(agent, -normalSpeed, 0);
             }   
@@ -80,48 +80,48 @@ int processEvents(Agent *agent, int *curX, int *curY, int *bCurY, int *fCurY) {
 
     else if(keystate[SDL_SCANCODE_D]) {
         agent->facingLeft = 0;
-        *bCurY = ((agent->coll.leftEdge) / 32);
-        *fCurY = ((agent->coll.rightEdge) / 32);
+        bCurY = ((agent->coll.leftEdge) / 32);
+        fCurY = ((agent->coll.rightEdge) / 32);
         
-        if (*fCurY > 3) {
-            *fCurY = 3;
+        if (fCurY > 3) {
+            fCurY = 3;
         }
 
         if (*curX +1 <= 6) {
-            if (((refGrid[*curX+1][*bCurY]==0) && (refGrid[*curX+1][*fCurY]==0)) || ((refGrid[*curX+1][*bCurY]==1) && (refGrid[*curX+1][*fCurY]==1))) {
+            if (((refGrid[*curX+1][bCurY]==0) && (refGrid[*curX+1][fCurY]==0)) || ((refGrid[*curX+1][bCurY]==1) && (refGrid[*curX+1][fCurY]==1))) {
                 
-                *curY = *bCurY;
+                *curY = bCurY;
                 
             }
-            else if ((refGrid[*curX+1][*bCurY]==1) && (refGrid[*curX+1][*fCurY]==0)) {
-                *curY = *bCurY;
+            else if ((refGrid[*curX+1][bCurY]==1) && (refGrid[*curX+1][fCurY]==0)) {
+                *curY = bCurY;
             }
-            else if ((refGrid[*curX+1][*bCurY]==0) && (refGrid[*curX+1][*fCurY]==1)) {
-                *curY = *fCurY;
+            else if ((refGrid[*curX+1][bCurY]==0) && (refGrid[*curX+1][fCurY]==1)) {
+                *curY = fCurY;
             }
         }
         else {
-            if (((refGrid[*curX][*bCurY]==0) && (refGrid[*curX][*fCurY]==0)) || ((refGrid[*curX][*bCurY]==1) && (refGrid[*curX][*fCurY]==1))) {
-                *curY = *bCurY;
+            if (((refGrid[*curX][bCurY]==0) && (refGrid[*curX][fCurY]==0)) || ((refGrid[*curX][bCurY]==1) && (refGrid[*curX][fCurY]==1))) {
+                *curY = bCurY;
                 
             }
-            else if ((refGrid[*curX][*bCurY]==1) && (refGrid[*curX][*fCurY]==0)) {
-                *curY = *bCurY;
+            else if ((refGrid[*curX][bCurY]==1) && (refGrid[*curX][fCurY]==0)) {
+                *curY = bCurY;
             }
-            else if ((refGrid[*curX][*bCurY]==0) && (refGrid[*curX][*fCurY]==1)) {
-                *curY = *fCurY;
+            else if ((refGrid[*curX][bCurY]==0) && (refGrid[*curX][fCurY]==1)) {
+                *curY = fCurY;
             } 
         }
 
         // printf("*curX: %d, *curY: %d\n", *curX, *curY);
         // printf("Back (looking down): %d, Front (looking down): %d\n", refGrid[*curX+1][*bCurY], refGrid[*curX+1][*fCurY]);
         
-        if (*bCurY+1 < 4 ) {
-            if (refGrid[*curX][*bCurY+1]==0) {
-                *curY = *bCurY;
+        if (bCurY+1 < 4 ) {
+            if (refGrid[*curX][bCurY+1]==0) {
+                *curY = bCurY;
                 // printf("difference: %f\n", ((*bCurY+1)*32+32 - agent->coll.rightEdge));
-                if (normalSpeed > ((*bCurY+1)*32+32 - agent->coll.rightEdge)) {
-                    normalSpeed = ((*bCurY+1)*32+32 - agent->coll.rightEdge);
+                if (normalSpeed > ((bCurY+1)*32+32 - agent->coll.rightEdge)) {
+                    normalSpeed = ((bCurY+1)*32+32 - agent->coll.rightEdge);
                 }
                 move(agent, normalSpeed, 0);
             }
