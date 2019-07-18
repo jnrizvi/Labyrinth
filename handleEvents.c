@@ -4,15 +4,39 @@ int processEvents(Agent *agent, int *curX, int *curY) {
     SDL_Event event;
     int done = 0;
     float normalSpeed = 3;
-    int refGrid[][4] = {
-        {0, 0, 0, 0},
-        {0, 0, 0, 0},
-        {0, 0, 0, 0},
-        {0, 0, 0, 0},
-        {0, 0, 0, 0},
-        {1, 0, 1, 0},
-        {1, 1, 1, 0}
+    // int refGrid[][4] = {
+    //     {0, 0, 0, 0},
+    //     {0, 0, 0, 0},
+    //     {0, 0, 0, 0},
+    //     {0, 0, 0, 0},
+    //     {0, 0, 0, 0},
+    //     {1, 0, 1, 0},
+    //     {1, 1, 1, 0}
+    // };
+    int refGrid[20][25] = {
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0},
+        {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     };
+    int nColumns = sizeof(refGrid[0])/sizeof(int);
+    int nRows = sizeof(refGrid)/sizeof(refGrid[0]);
     int bCurY, fCurY;
     while(SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
@@ -33,12 +57,12 @@ int processEvents(Agent *agent, int *curX, int *curY) {
 
         fCurY = ((agent->coll.leftEdge) / 32);
 
-        if (bCurY > 3) {
-            bCurY = 3;
+        if (bCurY >= nColumns) {
+            bCurY = nColumns-1;
         }
 
         // decision function
-        if (*curX +1 <= 6) {
+        if (*curX +1 < nRows) {
             if (((refGrid[*curX+1][bCurY]==0) && (refGrid[*curX+1][fCurY]==0)) || ((refGrid[*curX+1][bCurY]==1) && (refGrid[*curX+1][fCurY]==1))) {
                 *curY = bCurY;
                 
@@ -68,7 +92,8 @@ int processEvents(Agent *agent, int *curX, int *curY) {
 
         if (bCurY-1 >= 0 ) {
             if (refGrid[*curX][bCurY-1]==0 ) {
-                *curY = bCurY;
+                // *curY = bCurY;
+                
                 // printf("difference: %f\n", (agent->coll.leftEdge - (*bCurY-1)*32));
                 if (normalSpeed > (agent->coll.leftEdge - (bCurY-1)*32)) {
                     normalSpeed = (agent->coll.leftEdge - (bCurY-1)*32);
@@ -83,11 +108,11 @@ int processEvents(Agent *agent, int *curX, int *curY) {
         bCurY = ((agent->coll.leftEdge) / 32);
         fCurY = ((agent->coll.rightEdge) / 32);
         
-        if (fCurY > 3) {
-            fCurY = 3;
+        if (fCurY >= nColumns) {
+            fCurY = nColumns-1;
         }
 
-        if (*curX +1 <= 6) {
+        if (*curX +1 < nRows) {
             if (((refGrid[*curX+1][bCurY]==0) && (refGrid[*curX+1][fCurY]==0)) || ((refGrid[*curX+1][bCurY]==1) && (refGrid[*curX+1][fCurY]==1))) {
                 
                 *curY = bCurY;
@@ -116,10 +141,11 @@ int processEvents(Agent *agent, int *curX, int *curY) {
         // printf("*curX: %d, *curY: %d\n", *curX, *curY);
         // printf("Back (looking down): %d, Front (looking down): %d\n", refGrid[*curX+1][*bCurY], refGrid[*curX+1][*fCurY]);
         
-        if (bCurY+1 < 4 ) {
+        if (bCurY+1 < nColumns ) {
             if (refGrid[*curX][bCurY+1]==0) {
-                *curY = bCurY;
+                // *curY = bCurY;
                 // printf("difference: %f\n", ((*bCurY+1)*32+32 - agent->coll.rightEdge));
+                
                 if (normalSpeed > ((bCurY+1)*32+32 - agent->coll.rightEdge)) {
                     normalSpeed = ((bCurY+1)*32+32 - agent->coll.rightEdge);
                 }
