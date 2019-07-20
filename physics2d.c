@@ -1,7 +1,20 @@
 #include "headers/physics2d.h"
 
-void collideRect(Agent *agent, Platform *platform) {
-
+int collideRect(Agent *rect1, SDL_Rect *rect2) {
+    int collided;
+    if (rect1->coll.leftEdge < rect2->x + rect2->w &&
+       rect1->coll.rightEdge > rect2->x &&
+       rect1->coll.top < rect2->y + rect2->h &&
+       rect1->coll.bottom > rect2->y) {
+        // collision detected!
+        printf("Collision!\n");
+        collided = 1;
+    }
+    else {
+        printf("\n");
+        collided = 0;
+    }
+    return collided;
 }
 
 int changePlatforms(Agent *agent, Platform platforms[], int current_platform, bool *noMorePlat, int lenPlatforms) {
