@@ -2,18 +2,48 @@
 
 int collideRect(Agent *rect1, SDL_Rect *rect2) {
     int collided;
+    
+    // printf("%f should be >= %d\n", rect1->coll.leftEdge, (rect2->x + rect2->w));  // if B exceeds A by 32, then B, C, D are irrelevant and A is relevant
+    // printf("%f should be <= %d\n", rect1->coll.rightEdge, rect2->x);             //  if A exceeds B by 32, then A, C, D are irrelevant and B is relevant
+    // printf("%f should be >= %d\n", rect1->coll.top, (rect2->y + rect2->h));     //   if D exceeds C by 32+32, then D, B, A are irrelevant and C is relevant
+    // printf("%f should be <= %d\n", rect1->coll.bottom, rect2->y);              //    if C exceeds D by 32+32, then C, B, A are irrelevant and D is relevant
+
+    int A = fabsf(rect1->coll.leftEdge - (rect2->x + rect2->w));
+    int B = fabsf(rect2->x - rect1->coll.rightEdge);
+    int C = fabsf(rect1->coll.top - (rect2->y + rect2->h));
+    int D = fabsf(rect2->y - rect1->coll.bottom);
+
+    float toReturn[4] = {A, B, C, D};
+    float min = A;
+    // float temp;
+    
     if (rect1->coll.leftEdge < rect2->x + rect2->w &&
        rect1->coll.rightEdge > rect2->x &&
        rect1->coll.top < rect2->y + rect2->h &&
        rect1->coll.bottom > rect2->y) {
         // collision detected!
-        printf("Collision!\n");
-        collided = 1;
+        // printf("Collision!\n");
+        
+        for (int i = 0; i < 4; i++) {
+            if (toReturn[i] <= min) {
+                min = toReturn[i];
+            }
+        }
+        // printf("min: %f\n", min);
+
+        // printf("A: %f\n", rect1->coll.leftEdge - (rect2->x + rect2->w));
+        // printf("B: %f\n", rect2->x - rect1->coll.rightEdge);
+        // printf("C: %f\n", rect1->coll.top - (rect2->y + rect2->h));
+        // printf("D: %f\n", rect2->y - rect1->coll.bottom);
+
+        collided = min;
     }
     else {
-        printf("\n");
+        // printf("\n");
         collided = 0;
     }
+    // if rect1 and rect2 are both static, there's no need to check collisions between them. No adjustment for either rects
+    // if rect1 is dynamic and rect2 is static, rect1 is adjusted (simpleStop).
     return collided;
 }
 

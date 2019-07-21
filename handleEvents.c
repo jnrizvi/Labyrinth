@@ -4,7 +4,7 @@
 int eventHandler(Agent *agent) {
     SDL_Event event;
     int done = 0;
-    float normalSpeed = 1;
+    float normalSpeed = 3;
     
     SDL_Rect testBrick;
 
@@ -23,29 +23,21 @@ int eventHandler(Agent *agent) {
 
     if (keystate[SDL_SCANCODE_A]) {
         move(agent, -normalSpeed, 0);
-        if (collideRect(agent, &testBrick)==1) {
-            move(agent, normalSpeed, 0);
-        }
+        move(agent, collideRect(agent, &testBrick), 0);
         agent->facingLeft = 1;
     }
     else if (keystate[SDL_SCANCODE_D]) {
         move(agent, normalSpeed, 0);
-        if (collideRect(agent, &testBrick)==1) {
-            move(agent, -normalSpeed, 0);
-        }
+        move(agent, -collideRect(agent, &testBrick), 0);
         agent->facingLeft = 0;
     }
     if (keystate[SDL_SCANCODE_W]) {
         move(agent, -normalSpeed, 1);
-        if (collideRect(agent, &testBrick)==1) {
-            move(agent, normalSpeed, 1);
-        }
+        move(agent, collideRect(agent, &testBrick), 1);
     }
     else if (keystate[SDL_SCANCODE_S]) {
         move(agent, normalSpeed, 1);
-        if (collideRect(agent, &testBrick)==1) {
-            move(agent, -normalSpeed, 1);
-        }
+        move(agent, -collideRect(agent, &testBrick), 1);
     }
 
     return done;
