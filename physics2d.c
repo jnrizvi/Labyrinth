@@ -17,10 +17,7 @@ int collideRect(Agent *rect1, SDL_Rect *rect2) {
     float min = A;
     // float temp;
     
-    if (rect1->coll.leftEdge < rect2->x + rect2->w &&
-       rect1->coll.rightEdge > rect2->x &&
-       rect1->coll.top < rect2->y + rect2->h &&
-       rect1->coll.bottom > rect2->y) {
+    if ((rect1->coll.leftEdge < rect2->x + rect2->w) && (rect1->coll.rightEdge > rect2->x) && (rect1->coll.top < rect2->y + rect2->h) && (rect1->coll.bottom > rect2->y)) {
         // collision detected!
         // printf("Collision!\n");
         

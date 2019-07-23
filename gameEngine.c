@@ -43,14 +43,14 @@ int main(int argc, char** argv) {
     Mix_Chunk *jumpEffect = Mix_LoadWAV("audioFiles/Jump6.wav");
     Mix_Chunk *laserEffect = Mix_LoadWAV("audioFiles/Laser_Shoot7.wav");
     
+    SDL_Rect player_dest;
+    Agent player;
 
-    SDL_Rect player_dest = createRect(0, 0, 32, 64);
-    Agent player = initAgent("imageFiles/mario.png", player_dest, 0, 0, 0, renderer);
 
     int refGrid[20][25] = {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -71,6 +71,8 @@ int main(int argc, char** argv) {
     };
 
     Platform *brickCoords = malloc(sizeof(Platform));
+    
+    
     
     int index = 0;
     // int nTotal = sizeof(refGrid)/sizeof(int);
@@ -93,6 +95,10 @@ int main(int argc, char** argv) {
                 brickCoords[index] = initPlatform("imageFiles/brick.png", dest, 1, renderer);
                 index++;
             }
+            else if (refGrid[i][j] == 2) {
+                player_dest = createRect(j*32, i*32, 32, 64);
+                player = initAgent("imageFiles/mario.png", player_dest, 0, 0, 0, renderer);
+            }
         }
     }
     // printf("Index: %d\n", index);
@@ -104,7 +110,7 @@ int main(int argc, char** argv) {
     int curY = 0;
     
     while(done == 0) {
-        
+        // printf("leftEdge: %f\n", player.coll.leftEdge);
         done = eventHandler(&player);
         
         frameTime += 1;
@@ -117,7 +123,7 @@ int main(int argc, char** argv) {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
-        SDL_Rect player_dest = createRect(player.x, player.y, player.sprite_w, player.sprite_h);
+        player_dest = createRect(player.x, player.y, player.sprite_w, player.sprite_h);
         setCurrentSprite(&player, &player.currentSprite);
 
         SDL_RenderCopyEx(renderer, player.sheetTexture, &player.currentSprite, &player_dest, 0, NULL, player.facingLeft);

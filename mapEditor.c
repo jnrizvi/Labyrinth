@@ -28,7 +28,7 @@ Agent initAgent(char* textureName, SDL_Rect agent_dest, int facingLeft, int curr
     
     agent.coll.leftEdge = agent.x;
     agent.coll.rightEdge = agent.x + agent.sprite_w;
-    agent.coll.top = agent.x;
+    agent.coll.top = agent.y;
     agent.coll.bottom = agent.y + agent.sprite_h;
     
     return agent;
