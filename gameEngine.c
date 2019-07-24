@@ -112,10 +112,18 @@ int main(int argc, char** argv) {
     int done = 0;
     int frameTime = 0;
     
+    SDL_Rect testBrick;
+
+    testBrick.x = 352;
+    testBrick.y = 224;
+    testBrick.w = 32;
+    testBrick.h = 32;
+
     while(done == 0) {
-        // printf("leftEdge: %f\n", player.coll.leftEdge);
-        done = eventHandler(&player, *allRects, numRects);
-        
+
+        done = eventHandler(&player);
+        move(&player, collideRect(&player, &testBrick));
+
         frameTime += 1;
         if (FPS / frameTime == 10) {
             frameTime = 0;
