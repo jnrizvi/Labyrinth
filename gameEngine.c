@@ -112,17 +112,17 @@ int main(int argc, char** argv) {
     int done = 0;
     int frameTime = 0;
     
-    SDL_Rect testBrick;
+    Coll testBrick;
 
-    testBrick.x = 352;
-    testBrick.y = 224;
-    testBrick.w = 32;
-    testBrick.h = 32;
+    testBrick.leftEdge = 352;
+    testBrick.top = 224;
+    testBrick.rightEdge = 384;
+    testBrick.bottom = 256;
 
     while(done == 0) {
 
         done = eventHandler(&player);
-        move(&player, collideRect(&player, &testBrick));
+        move(&player, collideRect(player.coll, testBrick));
 
         frameTime += 1;
         if (FPS / frameTime == 10) {

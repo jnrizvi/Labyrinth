@@ -1,6 +1,6 @@
 #include "headers/physics2d.h"
 
-float *collideRect(Agent *rect1, SDL_Rect *rect2) {
+float *collideRect(Coll rect1, Coll rect2) {
     // int collided;
     
     // printf("%f should be >= %d\n", rect1->coll.leftEdge, (rect2->x + rect2->w));  // if B exceeds A by 32, then B, C, D are irrelevant and A is relevant
@@ -8,16 +8,16 @@ float *collideRect(Agent *rect1, SDL_Rect *rect2) {
     // printf("%f should be >= %d\n", rect1->coll.top, (rect2->y + rect2->h));     //   if D exceeds C by 32+32, then D, B, A are irrelevant and C is relevant
     // printf("%f should be <= %d\n", rect1->coll.bottom, rect2->y);              //    if C exceeds D by 32+32, then C, B, A are irrelevant and D is relevant
 
-    int A = fabsf(rect1->coll.leftEdge - (rect2->x + rect2->w));
-    int B = fabsf(rect2->x - rect1->coll.rightEdge);
-    int C = fabsf(rect1->coll.top - (rect2->y + rect2->h));
-    int D = fabsf(rect2->y - rect1->coll.bottom);
+    int A = fabsf(rect1.leftEdge - (rect2.rightEdge));
+    int B = fabsf(rect2.leftEdge - rect1.rightEdge);
+    int C = fabsf(rect1.top - (rect2.bottom));
+    int D = fabsf(rect2.top - rect1.bottom);
 
     float toReturn[4] = {A, B, C, D};
     float min = A;
     // float temp;
     
-    if ((rect1->coll.leftEdge < rect2->x + rect2->w) && (rect1->coll.rightEdge > rect2->x) && (rect1->coll.top < rect2->y + rect2->h) && (rect1->coll.bottom > rect2->y)) {
+    if ((rect1.leftEdge < rect2.rightEdge) && (rect1.rightEdge > rect2.leftEdge) && (rect1.top < rect2.bottom) && (rect1.bottom > rect2.top)) {
         // collision detected!
         // printf("Collision!\n");
         
