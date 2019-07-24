@@ -46,7 +46,6 @@ int main(int argc, char** argv) {
     SDL_Rect player_dest;
     Agent player;
 
-
     int refGrid[20][25] = {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -71,10 +70,9 @@ int main(int argc, char** argv) {
     };
 
     Platform *brickCoords = malloc(sizeof(Platform));
-    
-    
-    
+    Coll *allRects = malloc(sizeof(Coll));
     int index = 0;
+    int numRects = 0;
     // int nTotal = sizeof(refGrid)/sizeof(int);
     int nColumns = sizeof(refGrid[0])/sizeof(int);
     int nRows = sizeof(refGrid)/sizeof(refGrid[0]);
@@ -89,25 +87,30 @@ int main(int argc, char** argv) {
                 else {
                     printf("realloc failed\n");
                 }
-                
                 // printf("j: %d, i: %d\n", j, i);
                 SDL_Rect dest = createRect(j*32, i*32, 32, 32);
                 brickCoords[index] = initPlatform("imageFiles/brick.png", dest, 1, renderer);
+
+                allRects = (Coll*)realloc(allRects, ((numRects+2)*sizeof(Coll)));
+                allRects[numRects] = brickCoords[index].coll;
+                numRects++;
+
                 index++;
             }
             else if (refGrid[i][j] == 2) {
                 player_dest = createRect(j*32, i*32, 32, 64);
                 player = initAgent("imageFiles/mario.png", player_dest, 0, 0, 0, renderer);
+
+                allRects = (Coll*)realloc(allRects, ((numRects+2)*sizeof(Coll)));
+                allRects[numRects] = player.coll;
+                numRects++;
             }
         }
     }
     // printf("Index: %d\n", index);
-    
+    // printf("numRects: %d\n", numRects);
     int done = 0;
     int frameTime = 0;
-    int current_platform = 0;
-    int curX = 0;
-    int curY = 0;
     
     while(done == 0) {
         // printf("leftEdge: %f\n", player.coll.leftEdge);
@@ -147,6 +150,7 @@ int main(int argc, char** argv) {
         SDL_DestroyTexture(brickCoords[i].pTexture);
     }
     free(brickCoords);
+    free(allRects);
     destroyEnvironment();
     return 0;
 }
