@@ -58,6 +58,7 @@ int main(int argc, char** argv) {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -66,7 +67,6 @@ int main(int argc, char** argv) {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     };
 
     Platform *brickCoords = malloc(sizeof(Platform));
@@ -118,11 +118,25 @@ int main(int argc, char** argv) {
     testBrick.top = 224;
     testBrick.rightEdge = 384;
     testBrick.bottom = 256;
-
+    
+    int sum;
+    
     while(done == 0) {
 
         done = eventHandler(&player);
-        move(&player, collideRect(player.coll, testBrick));
+        // move(&player, collideRect(player.coll, testBrick));
+        allRects[0] = player.coll;
+        sum = 0;        
+        for (int i = 0; i < numRects-1; i++) {
+            for (int j = i+1; j < numRects; j++) {
+                // comparison of two rectangles (for collision) go here
+                // printf("%f, %f\n", allRects[i].leftEdge, allRects[j].leftEdge );
+                move(&player, collideRect(allRects[i], allRects[j]));
+                sum += 1;
+            }
+        }
+        printf("sum: %d\n", sum);
+
 
         frameTime += 1;
         if (FPS / frameTime == 10) {

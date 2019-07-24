@@ -1,12 +1,11 @@
 #include "headers/physics2d.h"
 
 float *collideRect(Coll rect1, Coll rect2) {
-    // int collided;
     
-    // printf("%f should be >= %d\n", rect1->coll.leftEdge, (rect2->x + rect2->w));  // if B exceeds A by 32, then B, C, D are irrelevant and A is relevant
-    // printf("%f should be <= %d\n", rect1->coll.rightEdge, rect2->x);             //  if A exceeds B by 32, then A, C, D are irrelevant and B is relevant
-    // printf("%f should be >= %d\n", rect1->coll.top, (rect2->y + rect2->h));     //   if D exceeds C by 32+32, then D, B, A are irrelevant and C is relevant
-    // printf("%f should be <= %d\n", rect1->coll.bottom, rect2->y);              //    if C exceeds D by 32+32, then C, B, A are irrelevant and D is relevant
+    // printf("%f should be >= %d\n", rect1->coll.leftEdge, (rect2->x + rect2->w));
+    // printf("%f should be <= %d\n", rect1->coll.rightEdge, rect2->x);             
+    // printf("%f should be >= %d\n", rect1->coll.top, (rect2->y + rect2->h));    
+    // printf("%f should be <= %d\n", rect1->coll.bottom, rect2->y);              
 
     int A = fabsf(rect1.leftEdge - (rect2.rightEdge));
     int B = fabsf(rect2.leftEdge - rect1.rightEdge);
@@ -15,7 +14,6 @@ float *collideRect(Coll rect1, Coll rect2) {
 
     float toReturn[4] = {A, B, C, D};
     float min = A;
-    // float temp;
     
     if ((rect1.leftEdge < rect2.rightEdge) && (rect1.rightEdge > rect2.leftEdge) && (rect1.top < rect2.bottom) && (rect1.bottom > rect2.top)) {
         // collision detected!
@@ -36,16 +34,13 @@ float *collideRect(Coll rect1, Coll rect2) {
         }
         // printf("min: %f\n", min);
 
-        // printf("A: %f\n", toReturn[0]);
-        // printf("B: %f\n", toReturn[1]);
-        // printf("C: %f\n", toReturn[2]);
-        // printf("D: %f\n", toReturn[3]);
+        printf("A: %f\n", toReturn[0]);
+        printf("B: %f\n", toReturn[1]);
+        printf("C: %f\n", toReturn[2]);
+        printf("D: %f\n", toReturn[3]);
 
-        // collided = min;
     }
     else {
-        // printf("\n");
-        // collided = 0;
         for (int i = 0; i < 4; i++) {
             toReturn[i] = 0;
         }
