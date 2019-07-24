@@ -114,7 +114,7 @@ int main(int argc, char** argv) {
     
     while(done == 0) {
         // printf("leftEdge: %f\n", player.coll.leftEdge);
-        done = eventHandler(&player);
+        done = eventHandler(&player, *allRects, numRects);
         
         frameTime += 1;
         if (FPS / frameTime == 10) {

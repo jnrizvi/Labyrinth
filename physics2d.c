@@ -26,7 +26,17 @@ int collideRect(Agent *rect1, SDL_Rect *rect2) {
                 min = toReturn[i];
             }
         }
+        for (int j = 0; j < 4; j++) {
+            if (toReturn[j] != min) {
+                toReturn[j] = 0;
+            }
+        }
         // printf("min: %f\n", min);
+
+        printf("A: %f\n", toReturn[0]);
+        printf("B: %f\n", toReturn[1]);
+        printf("C: %f\n", toReturn[2]);
+        printf("D: %f\n", toReturn[3]);
 
         // printf("A: %f\n", rect1->coll.leftEdge - (rect2->x + rect2->w));
         // printf("B: %f\n", rect2->x - rect1->coll.rightEdge);

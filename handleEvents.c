@@ -1,7 +1,7 @@
 #include "headers/handleEvents.h"
 #include "headers/physics2d.h"
 
-int eventHandler(Agent *agent) {
+int eventHandler(Agent *agent, Coll allRects, int numRects) {
     SDL_Event event;
     int done = 0;
     float normalSpeed = 3;
@@ -47,15 +47,7 @@ int processEvents(Agent *agent, int *curX, int *curY) {
     SDL_Event event;
     int done = 0;
     float normalSpeed = 3;
-    // int refGrid[][4] = {
-    //     {0, 0, 0, 0},
-    //     {0, 0, 0, 0},
-    //     {0, 0, 0, 0},
-    //     {0, 0, 0, 0},
-    //     {0, 0, 0, 0},
-    //     {1, 0, 1, 0},
-    //     {1, 1, 1, 0}
-    // };
+    
     int refGrid[20][25] = {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
