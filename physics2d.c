@@ -30,6 +30,9 @@ float *collideRect(Agent *rect1, SDL_Rect *rect2) {
             if (toReturn[j] != min) {
                 toReturn[j] = 0;
             }
+            else {
+                toReturn[j] = -toReturn[j];
+            }
         }
         // printf("min: %f\n", min);
 
