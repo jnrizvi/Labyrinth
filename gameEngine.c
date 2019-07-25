@@ -54,12 +54,12 @@ int main(int argc, char** argv) {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -129,20 +129,31 @@ int main(int argc, char** argv) {
         allRects[0] = player.coll;
         sum = 0;        
         for (int i = 0; i < numRects-1; i++) {
+            
             for (int j = i+1; j < numRects; j++) {
                 // comparison of two rectangles (for collision) go here
+                move(&player, collideRect(allRects[i], allRects[j]));
+                printf("bottom: %f\n", player.coll.bottom);
                 // printf("%f, %f\n", allRects[i].leftEdge, allRects[j].leftEdge );
-                memcpy(temp, collideRect(allRects[i], allRects[j]), sizeof(temp));
-                for (int k = 0; k < 4; k++) {
-                    if (temp[k] != 0) {
-                        memcpy(arr, temp, sizeof(temp));
-                    }
-                }
+                // memcpy(temp, collideRect(allRects[i], allRects[j]), sizeof(temp));
+                // for (int k = 0; k < 4; k++) {
+                //     if (temp[k] != 0) {
+                        // memcpy(arr, temp, sizeof(temp));
+                        // arr[k] = temp[k];
+                //     }
+                // }
                 sum += 1;
-                
+                // move(&player, arr);
+
             }
+            
         }
-        move(&player, arr);
+
+        // for (int i =0; i < 4; i++) {
+        //     printf("arr[%d]: %f\n", i, arr[i]);
+        // }
+        // move(&player, arr);
+
         printf("sum: %d\n", sum);
 
 
