@@ -129,13 +129,14 @@ int main(int argc, char** argv) {
         allRects[0] = player.coll;
         sum = 0;        
         for (int i = 0; i < numRects-2; i++) {
-            
+            // arr[3] = 0;
             for (int j = i+1; j < numRects; j++) {
                 // comparison of two rectangles (for collision) go here
-                printf("before bottom: %f\n", player.coll.bottom);
+                // arr[3] = 0;
+                // printf("before bottom: %f\n", player.coll.bottom);
                 // move(&player, collideRect(allRects[i], allRects[j]));
+                // printf("bottom: %f\n", player.coll.bottom);
                 
-
                 memcpy(temp, collideRect(allRects[i], allRects[j]), sizeof(temp));
                 
                 // printf("arr[3] %f\n", arr[3] );
@@ -147,7 +148,7 @@ int main(int argc, char** argv) {
                 //     }
                 // }
                 move(&player, temp);
-                printf("bottom: %f\n", player.coll.bottom);
+                
                 sum += 1;
             }
             // move(&player, arr);
