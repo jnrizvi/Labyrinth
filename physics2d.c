@@ -20,7 +20,7 @@ float *collideRect(Coll rect1, Coll rect2) {
         // printf("Collision!\n");
         
         for (int i = 0; i < 4; i++) {
-            if (toReturn[i] <= min) {
+            if (toReturn[i] < min) {
                 min = toReturn[i];
             }
         }
@@ -41,6 +41,7 @@ float *collideRect(Coll rect1, Coll rect2) {
 
     }
     else {
+        printf("Not colliding\n");
         for (int i = 0; i < 4; i++) {
             toReturn[i] = 0;
         }

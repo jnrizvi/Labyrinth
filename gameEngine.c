@@ -132,6 +132,7 @@ int main(int argc, char** argv) {
             
             for (int j = i+1; j < numRects; j++) {
                 // comparison of two rectangles (for collision) go here
+                printf("before bottom: %f\n", player.coll.bottom);
                 move(&player, collideRect(allRects[i], allRects[j]));
                 printf("bottom: %f\n", player.coll.bottom);
                 // printf("%f, %f\n", allRects[i].leftEdge, allRects[j].leftEdge );

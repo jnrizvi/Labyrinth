@@ -47,17 +47,17 @@ void move(Agent *agent, float moveDirection[4]) {
         agent->coll.leftEdge += -moveDirection[0];
         agent->coll.rightEdge += -moveDirection[0];
     }
-    else if (moveDirection[1] != 0) {
+    if (moveDirection[1] != 0) {
         agent->x += moveDirection[1];
         agent->coll.leftEdge += moveDirection[1];
         agent->coll.rightEdge += moveDirection[1];
     }
-    else if (moveDirection[2] != 0) {
+    if (moveDirection[2] != 0) {
         agent->y += -moveDirection[2];
         agent->coll.top += -moveDirection[2];
         agent->coll.bottom += -moveDirection[2];
     }
-    else if (moveDirection[3] != 0) {
+    if (moveDirection[3] != 0) {
         agent->y += moveDirection[3];
         agent->coll.top += moveDirection[3];
         agent->coll.bottom += moveDirection[3];   
