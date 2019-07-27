@@ -15,6 +15,7 @@ typedef struct {
     float rightEdge;
     float top;
     float bottom;
+    float mass;
 } Coll;
 
 typedef struct {

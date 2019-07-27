@@ -30,6 +30,8 @@ Agent initAgent(char* textureName, SDL_Rect agent_dest, int facingLeft, int curr
     agent.coll.rightEdge = agent.x + agent.sprite_w;
     agent.coll.top = agent.y;
     agent.coll.bottom = agent.y + agent.sprite_h;
+
+    agent.coll.mass = 1; // 1 means fully dynamic
     
     return agent;
 }
@@ -44,6 +46,8 @@ Platform initPlatform(char* textureName, SDL_Rect block_dest, int numBlocks, SDL
     platform.coll.rightEdge = (platform.block_dest.w * platform.numBlocks) + platform.block_dest.x;
     platform.coll.top = platform.block_dest.y; 
     platform.coll.bottom = platform.block_dest.y + platform.block_dest.h;
+
+    platform.coll.mass = 0; // 0 means fully static
 
     return platform;
 }

@@ -118,7 +118,7 @@ int main(int argc, char** argv) {
     testBrick.top = 224;
     testBrick.rightEdge = 384;
     testBrick.bottom = 256;
-    
+    // numRects = 2;
     int sum;
     
     while(done == 0) {
@@ -128,7 +128,7 @@ int main(int argc, char** argv) {
         // move(&player, collideRect(player.coll, testBrick));
         allRects[0] = player.coll;
         sum = 0;        
-        for (int i = 0; i < numRects-1; i++) {
+        for (int i = 0; i < numRects-2; i++) {
             
             for (int j = i+1; j < numRects; j++) {
                 // comparison of two rectangles (for collision) go here
