@@ -53,10 +53,10 @@ int main(int argc, char** argv) {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -132,25 +132,25 @@ int main(int argc, char** argv) {
             
             for (int j = i+1; j < numRects; j++) {
                 // comparison of two rectangles (for collision) go here
-                // printf("before bottom: %f\n", player.coll.bottom);
+                printf("before bottom: %f\n", player.coll.bottom);
                 // move(&player, collideRect(allRects[i], allRects[j]));
-                // printf("bottom: %f\n", player.coll.bottom);
+                
 
                 memcpy(temp, collideRect(allRects[i], allRects[j]), sizeof(temp));
-                // move(&player, arr);
+                
                 // printf("arr[3] %f\n", arr[3] );
                 
-                for (int k = 0; k < 4; k++) {
-                    if (temp[k] != 0) {
-                        // memcpy(arr, temp, sizeof(temp));
-                        arr[k] = temp[k];
-                    }
-                }
-                
-                
+                // for (int k = 0; k < 4; k++) {
+                //     if (temp[k] != 0) {
+                //         // memcpy(arr, temp, sizeof(temp));
+                //         arr[k] = temp[k];
+                //     }
+                // }
+                move(&player, temp);
+                printf("bottom: %f\n", player.coll.bottom);
                 sum += 1;
             }
-            move(&player, arr);
+            // move(&player, arr);
             
         }
 
