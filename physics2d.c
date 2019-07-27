@@ -30,7 +30,7 @@ float *collideRect(Coll rect1, Coll rect2) {
             }
             else {
                 toReturn[j] = -toReturn[j];
-                toReturn[j] /= 2;
+                // toReturn[j] /= 2;
             }
         }
         // printf("min: %f\n", min);
