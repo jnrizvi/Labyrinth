@@ -135,17 +135,20 @@ int main(int argc, char** argv) {
                 printf("before bottom: %f\n", player.coll.bottom);
                 move(&player, collideRect(allRects[i], allRects[j]));
                 printf("bottom: %f\n", player.coll.bottom);
-                // printf("%f, %f\n", allRects[i].leftEdge, allRects[j].leftEdge );
-                // memcpy(temp, collideRect(allRects[i], allRects[j]), sizeof(temp));
+
+                // memcpy(arr, collideRect(allRects[i], allRects[j]), sizeof(temp));
+                // move(&player, arr);
+                // printf("arr[3] %f\n", arr[3] );
+                
                 // for (int k = 0; k < 4; k++) {
                 //     if (temp[k] != 0) {
                         // memcpy(arr, temp, sizeof(temp));
                         // arr[k] = temp[k];
                 //     }
                 // }
+                
+                
                 sum += 1;
-                // move(&player, arr);
-
             }
             
         }
