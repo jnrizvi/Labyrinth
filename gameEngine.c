@@ -53,10 +53,10 @@ int main(int argc, char** argv) {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -122,32 +122,30 @@ int main(int argc, char** argv) {
     int sum;
     
     while(done == 0) {
-        float temp[4] = {0, 0, 0, 0};
-        float arr[4] = {0, 0, 0, 0};
+        float prev[4] = {0, 0, 0, 0};
+        float curr[4] = {0, 0, 0, 0};
         done = eventHandler(&player);
         // move(&player, collideRect(player.coll, testBrick));
         allRects[0] = player.coll;
         sum = 0;        
         for (int i = 0; i < numRects-2; i++) {
-            // arr[3] = 0;
             for (int j = i+1; j < numRects; j++) {
                 // comparison of two rectangles (for collision) go here
-                // arr[3] = 0;
                 // printf("before bottom: %f\n", player.coll.bottom);
                 // move(&player, collideRect(allRects[i], allRects[j]));
                 // printf("bottom: %f\n", player.coll.bottom);
+
+                memcpy(curr, collideRect(allRects[i], allRects[j]), sizeof(curr));
+
                 
-                memcpy(temp, collideRect(allRects[i], allRects[j]), sizeof(temp));
-                
-                // printf("arr[3] %f\n", arr[3] );
-                
-                // for (int k = 0; k < 4; k++) {
-                //     if (temp[k] != 0) {
-                //         // memcpy(arr, temp, sizeof(temp));
-                //         arr[k] = temp[k];
-                //     }
-                // }
-                move(&player, temp);
+                for (int k = 0; k < 4; k++) {
+                    if (curr[3] == prev[3]) {
+                        curr[3] = 0;
+                        curr[1] = 0;
+                    }
+                }
+                memcpy(prev, collideRect(allRects[i], allRects[j]), sizeof(prev));
+                move(&player, curr);
                 
                 sum += 1;
             }
