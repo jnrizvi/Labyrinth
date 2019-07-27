@@ -139,10 +139,16 @@ int main(int argc, char** argv) {
 
                 
                 for (int k = 0; k < 4; k++) {
-                    if (curr[3] == prev[3]) {
-                        curr[3] = 0;
+                    if (curr[k] != 0 && curr[k] == prev[k]) {
+                        curr[0] = 0;
                         curr[1] = 0;
+                        curr[2] = 0;
+                        curr[3] = 0;
                     }
+                    // if (curr[3] == prev[3]) {
+                    //     curr[3] = 0;
+                    //     curr[1] = 0;
+                    // }
                 }
                 memcpy(prev, collideRect(allRects[i], allRects[j]), sizeof(prev));
                 move(&player, curr);
