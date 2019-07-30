@@ -35,14 +35,14 @@ float *collideRect(Coll rect1, Coll rect2) {
         }
         // printf("min: %f\n", min);
 
-        printf("A: %f\n", toReturn[0]);
-        printf("B: %f\n", toReturn[1]);
-        printf("C: %f\n", toReturn[2]);
-        printf("D: %f\n", toReturn[3]);
+        // printf("A: %f\n", toReturn[0]);
+        // printf("B: %f\n", toReturn[1]);
+        // printf("C: %f\n", toReturn[2]);
+        // printf("D: %f\n", toReturn[3]);
 
     }
     else {
-        printf("Not colliding\n");
+        // printf("Not colliding\n");
         for (int i = 0; i < 4; i++) {
             toReturn[i] = 0;
         }
