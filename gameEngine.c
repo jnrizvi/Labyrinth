@@ -53,7 +53,7 @@ int main(int argc, char** argv) {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -131,28 +131,31 @@ int main(int argc, char** argv) {
         for (int i = 0; i < numRects-2; i++) {
             for (int j = i+1; j < numRects; j++) {
                 // comparison of two rectangles (for collision) go here
-                // printf("before bottom: %f\n", player.coll.bottom);
+                printf("before - bottom: %0.1f right: %0.1f\n", allRects[i].bottom, allRects[i].rightEdge);
                 // move(&player, collideRect(allRects[i], allRects[j]));
-                // printf("bottom: %f\n", player.coll.bottom);
 
                 memcpy(curr, collideRect(allRects[i], allRects[j]), sizeof(curr));
 
-                
-                for (int k = 0; k < 4; k++) {
-                    if (curr[k] != 0 && curr[k] == prev[k]) {
-                        curr[0] = 0;
-                        curr[1] = 0;
-                        curr[2] = 0;
-                        curr[3] = 0;
-                    }
-                    // if (curr[3] == prev[3]) {
-                    //     curr[3] = 0;
-                    //     curr[1] = 0;
-                    // }
+                if (curr[0] != 0) {
+                    allRects[i].leftEdge += -curr[0];
+                    allRects[i].rightEdge += -curr[0];
                 }
-                memcpy(prev, collideRect(allRects[i], allRects[j]), sizeof(prev));
-                move(&player, curr);
+                if (curr[1] != 0) {
+                    allRects[i].leftEdge += curr[1];
+                    allRects[i].rightEdge += curr[1];
+                }
+                if (curr[2] != 0) {
+                    allRects[i].top += -curr[2];
+                    allRects[i].bottom += -curr[2];
+                }
+                if (curr[3] != 0) {
+                    allRects[i].top += curr[3];
+                    allRects[i].bottom += curr[3];   
+                }
                 
+                // memcpy(prev, collideRect(allRects[i], allRects[j]), sizeof(prev));
+                move(&player, curr);
+                printf("after - bottom: %0.1f right: %0.1f\n", allRects[i].bottom, allRects[i].rightEdge);
                 sum += 1;
             }
             // move(&player, arr);

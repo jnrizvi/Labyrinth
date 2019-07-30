@@ -43,7 +43,7 @@ Platform initPlatform(char* textureName, SDL_Rect block_dest, int numBlocks, SDL
     platform.numBlocks = numBlocks;
 
     platform.coll.leftEdge = platform.block_dest.x;
-    platform.coll.rightEdge = (platform.block_dest.w * platform.numBlocks) + platform.block_dest.x;
+    platform.coll.rightEdge = platform.block_dest.x + platform.block_dest.w;
     platform.coll.top = platform.block_dest.y; 
     platform.coll.bottom = platform.block_dest.y + platform.block_dest.h;
 
