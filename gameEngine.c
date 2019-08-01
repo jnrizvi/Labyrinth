@@ -129,16 +129,18 @@ int main(int argc, char** argv) {
         allRects[0] = player.coll;
         sum = 0;  
               
-        for (int i = 0; i < numRects-1; i++) {
-            int r = numRects-1;
+        for (int i = 0; i < 1; i++) {
+            // int r = numRects-1;
             for (int j = i+1; j < numRects; j++) {
                 // comparison of two rectangles (for collision) go here
                 // printf("before - right: %0.1f left: %0.1f top: %0.1f bottom: %0.1f\n", allRects[i].rightEdge, allRects[i].leftEdge, allRects[i].top, allRects[i].bottom);
-                // printf("j: %d r: %d\n", j, r);
+                printf("j: %d j-1: %d\n", j, j-1);
                 int currCount = 0;
                 int reveCount = 0;
                 memcpy(curr, collideRect(allRects[i], allRects[j]), sizeof(curr));
-                memcpy(reve, collideRect(allRects[i], allRects[r]), sizeof(reve));
+                if (j-1 >= 1) {
+                    memcpy(reve, collideRect(allRects[i], allRects[j-1]), sizeof(reve));
+                }
 
                 for (int k = 0; k < 4; k++) {
                     if (curr[k] != 0) {
@@ -170,7 +172,7 @@ int main(int argc, char** argv) {
                     allRects[i].bottom += curr[3];   
                 }
                 move(&player, curr);
-                r--;
+                // r--;
                 // printf("after - right: %0.1f left: %0.1f top: %0.1f bottom: %0.1f\n", allRects[i].rightEdge, allRects[i].leftEdge, allRects[i].top, allRects[i].bottom);
                 sum += 1;
             }
