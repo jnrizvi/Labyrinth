@@ -122,8 +122,7 @@ int main(int argc, char** argv) {
     int sum;
     
     while(done == 0) {
-        float curr[4] = {0, 0, 0, 0};
-        float prev[4] = {0, 0, 0, 0};
+        
         done = eventHandler(&player);
         // move(&player, collideRect(player.coll, testBrick));
         allRects[0] = player.coll;
@@ -134,25 +133,26 @@ int main(int argc, char** argv) {
                 // comparison of two rectangles (for collision) go here
                 // printf("before - right: %0.1f left: %0.1f top: %0.1f bottom: %0.1f\n", allRects[i].rightEdge, allRects[i].leftEdge, allRects[i].top, allRects[i].bottom);
                 // printf("j: %d j-1: %d\n", j, j-1);
+                float curr[4] = {0, 0, 0, 0};
+                float prev[4] = {0, 0, 0, 0};
                 memcpy(curr, collideRect(allRects[i], allRects[j]), sizeof(curr));
 
                 int currCount = 0;
-                int reveCount = 0;
                 
                 if (j-1 >= 1) {
                     memcpy(prev, collideRect(allRects[i], allRects[j-1]), sizeof(prev));
                 }
 
-                for (int k = 0; k < 4; k++) {
-                    if (curr[k] != 0) {
-                        currCount += 1;
-                    }
-                    if (prev[k] != 0) {
-                        reveCount += 1;
-                    }
+                if ((curr[0] != 0 && curr[3] != 0) || (curr[2] != 0 && curr[3] != 0)) {
+                    currCount += 1;
                 }
+                // for (int k = 0; k < 4; k++) {
+                //     if (curr[k] != 0) {
+                //         currCount += 1;
+                //     }
+                // }
 
-                if (currCount > 1) {
+                if (currCount > 0) {
                     memcpy(curr, prev, sizeof(prev));
                 }
 
