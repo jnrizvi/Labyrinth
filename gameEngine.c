@@ -123,36 +123,37 @@ int main(int argc, char** argv) {
     
     while(done == 0) {
         float curr[4] = {0, 0, 0, 0};
-        float reve[4] = {0, 0, 0, 0};
+        float prev[4] = {0, 0, 0, 0};
         done = eventHandler(&player);
         // move(&player, collideRect(player.coll, testBrick));
         allRects[0] = player.coll;
         sum = 0;  
               
         for (int i = 0; i < 1; i++) {
-            // int r = numRects-1;
             for (int j = i+1; j < numRects; j++) {
                 // comparison of two rectangles (for collision) go here
                 // printf("before - right: %0.1f left: %0.1f top: %0.1f bottom: %0.1f\n", allRects[i].rightEdge, allRects[i].leftEdge, allRects[i].top, allRects[i].bottom);
-                printf("j: %d j-1: %d\n", j, j-1);
+                // printf("j: %d j-1: %d\n", j, j-1);
+                memcpy(curr, collideRect(allRects[i], allRects[j]), sizeof(curr));
+
                 int currCount = 0;
                 int reveCount = 0;
-                memcpy(curr, collideRect(allRects[i], allRects[j]), sizeof(curr));
+                
                 if (j-1 >= 1) {
-                    memcpy(reve, collideRect(allRects[i], allRects[j-1]), sizeof(reve));
+                    memcpy(prev, collideRect(allRects[i], allRects[j-1]), sizeof(prev));
                 }
 
                 for (int k = 0; k < 4; k++) {
                     if (curr[k] != 0) {
                         currCount += 1;
                     }
-                    if (reve[k] != 0) {
+                    if (prev[k] != 0) {
                         reveCount += 1;
                     }
                 }
 
-                if (currCount > 1 && reveCount <= 1) {
-                    memcpy(curr, reve, sizeof(reve));
+                if (currCount > 1) {
+                    memcpy(curr, prev, sizeof(prev));
                 }
 
                 if (curr[0] != 0) {
@@ -172,7 +173,6 @@ int main(int argc, char** argv) {
                     allRects[i].bottom += curr[3];   
                 }
                 move(&player, curr);
-                // r--;
                 // printf("after - right: %0.1f left: %0.1f top: %0.1f bottom: %0.1f\n", allRects[i].rightEdge, allRects[i].leftEdge, allRects[i].top, allRects[i].bottom);
                 sum += 1;
             }
@@ -183,7 +183,7 @@ int main(int argc, char** argv) {
 
 
         frameTime += 1;
-        if (FPS / frameTime == 10) {
+        if (FPS / frameTime == 8) {
             frameTime = 0;
             updateSpriteFrame(&player);
         }

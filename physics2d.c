@@ -1,11 +1,6 @@
 #include "headers/physics2d.h"
 
-float *collideRect(Coll rect1, Coll rect2) {
-    
-    // printf("%f should be >= %d\n", rect1->coll.leftEdge, (rect2->x + rect2->w));
-    // printf("%f should be <= %d\n", rect1->coll.rightEdge, rect2->x);             
-    // printf("%f should be >= %d\n", rect1->coll.top, (rect2->y + rect2->h));    
-    // printf("%f should be <= %d\n", rect1->coll.bottom, rect2->y);              
+float *collideRect(Coll rect1, Coll rect2) {          
 
     int A = fabsf(rect1.leftEdge - (rect2.rightEdge));
     int B = fabsf(rect2.leftEdge - rect1.rightEdge);
@@ -17,7 +12,7 @@ float *collideRect(Coll rect1, Coll rect2) {
     
     if ((rect1.leftEdge < rect2.rightEdge) && (rect1.rightEdge > rect2.leftEdge) && (rect1.top < rect2.bottom) && (rect1.bottom > rect2.top)) {
         // collision detected!
-        // printf("Collision!\n");
+        printf("Collision!\n");
         
         for (int i = 0; i < 4; i++) {
             if (toReturn[i] < min) {
@@ -30,15 +25,14 @@ float *collideRect(Coll rect1, Coll rect2) {
             }
             else {
                 toReturn[j] = -toReturn[j];
-                // toReturn[j] /= 2;
             }
         }
         // printf("min: %f\n", min);
 
-        // printf("A: %f\n", toReturn[0]);
-        // printf("B: %f\n", toReturn[1]);
-        // printf("C: %f\n", toReturn[2]);
-        // printf("D: %f\n", toReturn[3]);
+        printf("A: %f\n", toReturn[0]);
+        printf("B: %f\n", toReturn[1]);
+        printf("C: %f\n", toReturn[2]);
+        printf("D: %f\n", toReturn[3]);
 
     }
     else {
