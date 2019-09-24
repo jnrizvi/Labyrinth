@@ -129,7 +129,11 @@ int main(int argc, char** argv) {
         // move(&player, collideRect(player.coll, testBrick));
         allRects[0] = player.coll;
         sum = 0;  
-              
+        // gravity(&player);
+        player.dy += 0.5;
+        player.y += player.dy;
+        allRects[0].bottom += player.dy;
+        allRects[0].top += player.dy;
         for (int i = 0; i < 1; i++) {
             int r = numRects -1;
             for (int j = i+1; j < numRects; j++) {

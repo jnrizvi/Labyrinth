@@ -29,6 +29,7 @@ int eventHandler(Agent *agent) {
     }
     if (keystate[SDL_SCANCODE_W]) {
         moveDirection[2] = normalSpeed;
+        agent->dy = -10;
         move(agent, moveDirection);
         moveDirection[2] = 0;
     }
