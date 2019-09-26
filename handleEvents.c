@@ -28,10 +28,13 @@ int eventHandler(Agent *agent) {
         moveDirection[1] = 0;
     }
     if (keystate[SDL_SCANCODE_W]) {
-        moveDirection[2] = normalSpeed;
-        agent->dy = -10;
-        move(agent, moveDirection);
-        moveDirection[2] = 0;
+        if (agent->jumpAgain == true){
+            agent->dy = -12;
+            agent->jumpAgain = false;
+        }
+        // moveDirection[2] = normalSpeed;
+        // move(agent, moveDirection);
+        // moveDirection[2] = 0;
     }
     else if (keystate[SDL_SCANCODE_S]) {
         moveDirection[3] = normalSpeed;
